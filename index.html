@@ -7,6 +7,9 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- مكتبة الزينة (Confetti) -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         /* الألوان */
@@ -75,26 +78,29 @@
         .quiz-btn { color: var(--warning); border-color: #fcd34d; background: #fffbeb;}
         .quiz-btn:hover { background: var(--warning); color: var(--white); border-color: var(--warning); }
         
-        /* زرار الشاشة الكاملة */
         .fullscreen-btn { color: var(--blue-primary); border-color: var(--blue-primary); background: var(--blue-light); }
         .fullscreen-btn:hover { background: var(--blue-primary); color: var(--white); }
 
-        /* شريط أزرار الطلاب */
+        /* شريط أزرار الطلاب - تكبير الخط */
         .students-nav-container {
-            width: 100%; max-width: 1000px; background: transparent;
-            padding: 15px 20px; display: flex; overflow-x: auto; gap: 10px;
+            width: 100%; max-width: 1200px; background: transparent;
+            padding: 15px 20px; display: flex; overflow-x: auto; gap: 15px;
             scrollbar-width: none; 
         }
         .students-nav-container::-webkit-scrollbar { display: none; }
 
         .student-btn {
-            padding: 6px 16px; border-radius: 50px; border: 1px solid var(--gray-border);
-            background: var(--white); color: var(--text-muted); font-weight: 600;
-            font-size: 13px; cursor: pointer; transition: 0.2s;
-            display: flex; align-items: center; gap: 8px; white-space: nowrap;
+            padding: 10px 24px; /* زيادة المساحة */
+            border-radius: 50px; border: 1px solid var(--gray-border);
+            background: var(--white); color: var(--text-muted); 
+            font-weight: 700; /* خط أعرض */
+            font-size: 18px; /* تكبير الخط */
+            cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; gap: 10px; white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
-        .student-btn:hover { background: var(--blue-light); border-color: var(--blue-primary); color: var(--blue-primary); }
-        .student-btn.active { background: var(--blue-primary); color: var(--white); border-color: var(--blue-primary); box-shadow: 0 4px 10px rgba(30, 96, 210, 0.2); }
+        .student-btn:hover { background: var(--blue-light); border-color: var(--blue-primary); color: var(--blue-primary); transform: translateY(-2px);}
+        .student-btn.active { background: var(--blue-primary); color: var(--white); border-color: var(--blue-primary); box-shadow: 0 4px 15px rgba(30, 96, 210, 0.3); }
 
         /* منطقة المحتوى الرئيسية */
         .main-content {
@@ -119,7 +125,7 @@
 
         .slide-content { text-align: center; }
         
-        /* تصميم الصورة مع أيقونة التكبير */
+        /* تصميم الصورة */
         .slide-image-container {
             margin-bottom: 20px;
             display: flex;
@@ -160,28 +166,18 @@
             background-color: var(--gray-bg); 
         }
 
-        /* اسم الطالب الضخم */
         .student-main-name {
-            font-size: 45px; 
-            font-weight: 800;
-            color: var(--blue-dark);
-            margin-bottom: 10px;
-            line-height: 1.2;
-            text-transform: capitalize;
+            font-size: 45px; font-weight: 800; color: var(--blue-dark);
+            margin-bottom: 10px; line-height: 1.2; text-transform: capitalize;
         }
 
         .student-group-tag {
-            display: inline-block;
-            background: var(--blue-light);
-            color: var(--blue-primary);
-            padding: 8px 25px;
-            border-radius: 30px;
-            font-size: 18px;
-            font-weight: 800;
+            display: inline-block; background: var(--blue-light); color: var(--blue-primary);
+            padding: 8px 25px; border-radius: 30px; font-size: 18px; font-weight: 800;
             letter-spacing: 1px;
         }
 
-        /* شاشة عرض الصورة كاملة (Fullscreen Overlay) */
+        /* شاشة عرض الصورة كاملة */
         .fullscreen-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.95); 
@@ -189,23 +185,16 @@
             z-index: 99999; cursor: zoom-out;
         }
         .fullscreen-overlay.active { display: flex; animation: fadeIn 0.3s ease-out; }
-
-        .fullscreen-overlay img {
-            max-width: 95%; 
-            max-height: 95%;
-            object-fit: contain; 
-            border-radius: 8px;
-            box-shadow: 0 0 50px rgba(255,255,255,0.1);
-        }
-
+        .fullscreen-overlay img { max-width: 95%; max-height: 95%; object-fit: contain; border-radius: 8px; }
         .close-fullscreen {
-            position: absolute; top: 20px; right: 30px;
-            color: var(--white); font-size: 40px; font-weight: bold;
+            position: absolute; top: 20px; right: 30px; color: var(--white); font-size: 40px; font-weight: bold;
             cursor: pointer; transition: 0.3s;
         }
         .close-fullscreen:hover { color: var(--danger); transform: scale(1.1); }
 
+        /* ========================================== */
         /* شاشة اللعبة (Quiz) */
+        /* ========================================== */
         .quiz-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: linear-gradient(135deg, #f0f5ff 0%, #ffffff 100%);
@@ -223,9 +212,11 @@
         }
         .exit-btn:hover { background: #b91c1c; transform: translateY(-2px); }
 
-        .scoreboard { display: flex; justify-content: center; gap: 40px; margin-bottom: 25px; flex-shrink: 0; }
+        .scoreboard { display: flex; justify-content: center; gap: 50px; margin-bottom: 25px; flex-shrink: 0; }
+        
+        /* تكبير مربعات النتيجة وأسماء الجروبات */
         .team-score {
-            width: 160px; height: 160px; background: var(--white); border-radius: 20px;
+            width: 180px; height: 180px; background: var(--white); border-radius: 20px;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             border: 3px solid var(--gray-border); transition: 0.3s ease-in-out; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative;
@@ -242,14 +233,17 @@
         }
         .turn-badge {
             position: absolute; top: -15px; background: var(--blue-primary); color: var(--white);
-            padding: 4px 15px; border-radius: 20px; font-size: 12px; font-weight: 800;
+            padding: 4px 15px; border-radius: 20px; font-size: 14px; font-weight: 800;
             text-transform: uppercase; letter-spacing: 1px; opacity: 0; transform: translateY(10px);
             transition: 0.3s; box-shadow: 0 4px 10px rgba(30, 96, 210, 0.3);
         }
         .team-score.active-team .turn-badge { opacity: 1; transform: translateY(0); }
-        .team-score h3 { font-size: 18px; margin-bottom: 5px; color: var(--text-muted); font-weight: 600; transition: 0.3s; }
+        
+        /* تكبير اسم الجروب */
+        .team-score h3 { font-size: 26px; margin-bottom: 5px; color: var(--text-muted); font-weight: 700; transition: 0.3s; }
         .team-score.active-team h3 { color: var(--blue-primary); font-weight: 800; }
-        .team-score .score { font-size: 48px; font-weight: 800; color: var(--blue-dark); line-height: 1; }
+        
+        .team-score .score { font-size: 60px; font-weight: 800; color: var(--blue-dark); line-height: 1; }
         .team-score.active-team .score { color: var(--blue-primary); }
 
         .quiz-card {
@@ -309,16 +303,20 @@
             .slide-image-container::after { top: 10px; right: 10px; width: 30px; height: 30px; font-size: 14px;}
             .quiz-overlay { padding: 15px; }
             .quiz-header h2 { font-size: 20px; }
-            .scoreboard { gap: 20px; }
-            .team-score { width: 120px; height: 120px; }
-            .team-score .score { font-size: 36px; }
-            .team-score h3 { font-size: 14px; }
+            
+            /* تصغيرات الموبايل للعبة */
+            .scoreboard { gap: 15px; }
+            .team-score { width: 130px; height: 130px; }
+            .team-score .score { font-size: 40px; }
+            .team-score h3 { font-size: 18px; }
+            
             .question-text { font-size: 20px; margin-bottom: 15px; }
             .options-grid { grid-template-columns: 1fr; gap: 10px; }
             .option-btn { padding: 12px; font-size: 16px; }
             .option-btn .letter { width: 30px; height: 30px; font-size: 14px; }
             .next-btn { padding: 12px 30px; font-size: 16px; }
             .hero-section h1 { font-size: 32px; }
+            .student-btn { font-size: 15px; padding: 8px 16px; }
         }
     </style>
 </head>
@@ -330,11 +328,9 @@
             Analytical
         </div>
         <div class="nav-actions">
-            <!-- زر الشاشة الكاملة الجديد -->
-            <button class="action-icon-btn fullscreen-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen (F11)">
+            <button class="action-icon-btn fullscreen-btn" onclick="toggleFullscreen()" title="Fullscreen">
                 <i class="fa-solid fa-expand"></i>
             </button>
-            
             <button class="action-icon-btn quiz-btn" onclick="openQuiz()">
                 <i class="fa-solid fa-gamepad"></i> <span class="btn-text">Quiz Game</span>
             </button>
@@ -344,6 +340,7 @@
         </div>
     </nav>
 
+    <!-- شريط أزرار الطلاب -->
     <div class="students-nav-container" id="students-nav"></div>
 
     <main class="main-content">
@@ -356,14 +353,11 @@
         <!-- كارت عرض السلايد -->
         <div class="dashboard-card" id="dashboard-card">
             <div class="slide-content">
-                
                 <div class="slide-image-container" id="slide-image-container" onclick="openFullscreen()">
                     <img id="slide-image" src="" alt="Student Image">
                 </div>
-
                 <h1 class="student-main-name" id="display-student-name">Student Name</h1>
                 <div class="student-group-tag">Group 3</div>
-                
             </div>
         </div>
 
@@ -413,9 +407,7 @@
     </div>
 
     <script>
-        // ==========================================
-        // البيانات (الصورة والاسم فقط)
-        // ==========================================
+        // البيانات
         let studentsData = [
             { id: 1, name: "Sondos Mohamed", imageUrl: "images/1.jpg" },
             { id: 2, name: "Dina Yasser", imageUrl: "images/2.jpg" },
@@ -428,11 +420,11 @@
             { id: 9, name: "Rawan Mostafa", imageUrl: "images/9.jpg" }
         ];
 
+        // الأسئلة (هتبدلها بالأسئلة بتاعتك)
         const quizData = [
             { question: "What is the primary goal of Data Analytics?", options: ["Data Entry", "Extracting Insights", "Web Design", "Hardware Repair"], correctAnswer: 1 },
             { question: "Which chart is best for showing trends over time?", options: ["Pie Chart", "Bar Chart", "Line Chart", "Scatter Plot"], correctAnswer: 2 },
-            { question: "What does 'Data Cleaning' mean?", options: ["Deleting data", "Fixing inaccurate records", "Organizing files", "Printing reports"], correctAnswer: 1 },
-            { question: "In Medical Analytics, what does KPI stand for?", options: ["Key Performance Indicator", "Kidney Pain Index", "Knowledge Process Integration", "Keep Patient Informed"], correctAnswer: 0 }
+            { question: "What does 'Data Cleaning' mean?", options: ["Deleting data", "Fixing inaccurate records", "Organizing files", "Printing reports"], correctAnswer: 1 }
         ];
 
         let currentQuestionIndex = 0;
@@ -441,20 +433,13 @@
         let team2Score = 0;
         let canClick = true; 
 
-        // ==========================================
-        // دوال الشاشة الكاملة (Fullscreen API)
-        // ==========================================
+        // الشاشة الكاملة
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
-                // فتح الشاشة الكاملة
-                document.documentElement.requestFullscreen().catch((err) => {
-                    console.log(`Error attempting to enable fullscreen: ${err.message} (${err.name})`);
-                });
-                // تغيير شكل الأيقونة
+                document.documentElement.requestFullscreen().catch(() => {});
                 document.querySelector('.fullscreen-btn i').classList.remove('fa-expand');
                 document.querySelector('.fullscreen-btn i').classList.add('fa-compress');
             } else {
-                // الخروج من الشاشة الكاملة
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                     document.querySelector('.fullscreen-btn i').classList.remove('fa-compress');
@@ -462,18 +447,6 @@
                 }
             }
         }
-
-        // تحديث الأيقونة لو المستخدم خرج بمفتاح Esc
-        document.addEventListener('fullscreenchange', () => {
-            const icon = document.querySelector('.fullscreen-btn i');
-            if (document.fullscreenElement) {
-                icon.classList.remove('fa-expand');
-                icon.classList.add('fa-compress');
-            } else {
-                icon.classList.remove('fa-compress');
-                icon.classList.add('fa-expand');
-            }
-        });
 
         function renderNav() {
             const navContainer = document.getElementById('students-nav');
@@ -508,7 +481,7 @@
             }
         }
 
-        // دوال تكبير الصورة
+        // دوال الصورة الكاملة
         function openFullscreen() {
             const mainImageSrc = document.getElementById('slide-image').src;
             if (mainImageSrc) {
@@ -516,7 +489,6 @@
                 document.getElementById('fullscreen-overlay').classList.add('active');
             }
         }
-
         function closeFullscreen() {
             document.getElementById('fullscreen-overlay').classList.remove('active');
         }
@@ -536,13 +508,21 @@
             document.getElementById('quiz-overlay').classList.remove('active');
         }
 
+        // دالة تحديث لوحة النتيجة (تحدد مين اللي عليه الدور)
         function updateScoreboard() {
             document.getElementById('team1-score').innerText = team1Score;
             document.getElementById('team2-score').innerText = team2Score;
+            
+            // إزالة التحديد من الكل
             document.getElementById('team1-card').classList.remove('active-team');
             document.getElementById('team2-card').classList.remove('active-team');
-            if (currentTeam === 1) document.getElementById('team1-card').classList.add('active-team');
-            else document.getElementById('team2-card').classList.add('active-team');
+            
+            // تحديد الفريق اللي عليه الدور
+            if (currentTeam === 1) {
+                document.getElementById('team1-card').classList.add('active-team');
+            } else {
+                document.getElementById('team2-card').classList.add('active-team');
+            }
         }
 
         function loadQuestion() {
@@ -592,6 +572,10 @@
             if (selectedIndex === q.correctAnswer) {
                 btn.classList.add('correct');
                 playSound('correct');
+                
+                // إطلاق الزينة (Confetti) عند الإجابة الصحيحة
+                fireConfetti();
+
                 feedback.innerText = "Correct! +1 Point";
                 feedback.style.color = "var(--success)";
                 feedback.classList.add('show');
@@ -610,10 +594,40 @@
             document.getElementById('next-btn').style.display = 'inline-block';
         }
 
+        // دالة السؤال التالي (تتنقل للفريق التاني بدقة)
         function nextQuestion() {
             currentQuestionIndex++;
+            // تبديل الدور
             currentTeam = currentTeam === 1 ? 2 : 1;
+            
+            // تحديث لوحة النتائج عشان الزون الأزرق يتنقل فوراً
+            updateScoreboard(); 
+            
+            // تحميل السؤال الجديد
             loadQuestion();
+        }
+
+        // دالة الزينة (Confetti)
+        function fireConfetti() {
+            var duration = 1.5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
         }
 
         function playSound(type) {
