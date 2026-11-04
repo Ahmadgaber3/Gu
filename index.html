@@ -64,6 +64,7 @@
         }
 
         .nav-actions { display: flex; gap: 10px; align-items: center; }
+        
         .action-icon-btn {
             background: var(--white); color: var(--text-muted);
             border: 1px solid var(--gray-border); height: 40px; padding: 0 15px;
@@ -73,6 +74,10 @@
         .action-icon-btn:hover { background: var(--blue-light); color: var(--blue-primary); border-color: var(--blue-primary); }
         .quiz-btn { color: var(--warning); border-color: #fcd34d; background: #fffbeb;}
         .quiz-btn:hover { background: var(--warning); color: var(--white); border-color: var(--warning); }
+        
+        /* زرار الشاشة الكاملة */
+        .fullscreen-btn { color: var(--blue-primary); border-color: var(--blue-primary); background: var(--blue-light); }
+        .fullscreen-btn:hover { background: var(--blue-primary); color: var(--white); }
 
         /* شريط أزرار الطلاب */
         .students-nav-container {
@@ -120,12 +125,12 @@
             display: flex;
             justify-content: center;
             width: 100%;
-            position: relative; /* عشان الأيقونة */
-            cursor: zoom-in; /* شكل الماوس */
+            position: relative; 
+            cursor: zoom-in; 
         }
         
         .slide-image-container::after {
-            content: '\f00e'; /* كود أيقونة البحث/التكبير */
+            content: '\f00e'; 
             font-family: 'Font Awesome 6 Free';
             font-weight: 900;
             position: absolute;
@@ -140,7 +145,7 @@
             justify-content: center;
             align-items: center;
             font-size: 18px;
-            pointer-events: none; /* عشان متمنعش الضغط */
+            pointer-events: none; 
             transition: 0.3s;
         }
 
@@ -148,7 +153,7 @@
 
         .slide-image-container img {
             width: 100%; 
-            max-height: 65vh; /* تاخد مساحة كبيرة من الشاشة */
+            max-height: 65vh; 
             border-radius: 16px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             object-fit: contain; 
@@ -176,21 +181,19 @@
             letter-spacing: 1px;
         }
 
-        /* ========================================== */
         /* شاشة عرض الصورة كاملة (Fullscreen Overlay) */
-        /* ========================================== */
         .fullscreen-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.95); /* خلفية سوداء شبه معتمة */
+            background: rgba(0, 0, 0, 0.95); 
             display: none; justify-content: center; align-items: center;
             z-index: 99999; cursor: zoom-out;
         }
         .fullscreen-overlay.active { display: flex; animation: fadeIn 0.3s ease-out; }
 
         .fullscreen-overlay img {
-            max-width: 95%; /* تسيب مساحة 5% حوالين الصورة */
+            max-width: 95%; 
             max-height: 95%;
-            object-fit: contain; /* تظهر بالكامل من غير ما تتقص */
+            object-fit: contain; 
             border-radius: 8px;
             box-shadow: 0 0 50px rgba(255,255,255,0.1);
         }
@@ -202,10 +205,7 @@
         }
         .close-fullscreen:hover { color: var(--danger); transform: scale(1.1); }
 
-
-        /* ========================================== */
         /* شاشة اللعبة (Quiz) */
-        /* ========================================== */
         .quiz-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: linear-gradient(135deg, #f0f5ff 0%, #ffffff 100%);
@@ -330,6 +330,11 @@
             Analytical
         </div>
         <div class="nav-actions">
+            <!-- زر الشاشة الكاملة الجديد -->
+            <button class="action-icon-btn fullscreen-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen (F11)">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+            
             <button class="action-icon-btn quiz-btn" onclick="openQuiz()">
                 <i class="fa-solid fa-gamepad"></i> <span class="btn-text">Quiz Game</span>
             </button>
@@ -348,19 +353,15 @@
             <p>Group 3 - Second Year Project Presentation</p>
         </div>
 
-        <!-- كارت عرض السلايد (صورة + اسم + جروب فقط) -->
+        <!-- كارت عرض السلايد -->
         <div class="dashboard-card" id="dashboard-card">
             <div class="slide-content">
                 
-                <!-- الصورة (بندوس عليها تفتح كاملة) -->
                 <div class="slide-image-container" id="slide-image-container" onclick="openFullscreen()">
                     <img id="slide-image" src="" alt="Student Image">
                 </div>
 
-                <!-- اسم الطالب -->
                 <h1 class="student-main-name" id="display-student-name">Student Name</h1>
-                
-                <!-- شارة الجروب -->
                 <div class="student-group-tag">Group 3</div>
                 
             </div>
@@ -368,7 +369,7 @@
 
     </main>
 
-    <!-- شاشة عرض الصورة كاملة (Fullscreen) -->
+    <!-- شاشة عرض الصورة كاملة -->
     <div class="fullscreen-overlay" id="fullscreen-overlay" onclick="closeFullscreen()">
         <span class="close-fullscreen">&times;</span>
         <img id="fullscreen-img" src="" alt="Fullscreen Image">
@@ -440,6 +441,40 @@
         let team2Score = 0;
         let canClick = true; 
 
+        // ==========================================
+        // دوال الشاشة الكاملة (Fullscreen API)
+        // ==========================================
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                // فتح الشاشة الكاملة
+                document.documentElement.requestFullscreen().catch((err) => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message} (${err.name})`);
+                });
+                // تغيير شكل الأيقونة
+                document.querySelector('.fullscreen-btn i').classList.remove('fa-expand');
+                document.querySelector('.fullscreen-btn i').classList.add('fa-compress');
+            } else {
+                // الخروج من الشاشة الكاملة
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                    document.querySelector('.fullscreen-btn i').classList.remove('fa-compress');
+                    document.querySelector('.fullscreen-btn i').classList.add('fa-expand');
+                }
+            }
+        }
+
+        // تحديث الأيقونة لو المستخدم خرج بمفتاح Esc
+        document.addEventListener('fullscreenchange', () => {
+            const icon = document.querySelector('.fullscreen-btn i');
+            if (document.fullscreenElement) {
+                icon.classList.remove('fa-expand');
+                icon.classList.add('fa-compress');
+            } else {
+                icon.classList.remove('fa-compress');
+                icon.classList.add('fa-expand');
+            }
+        });
+
         function renderNav() {
             const navContainer = document.getElementById('students-nav');
             navContainer.innerHTML = ''; 
@@ -453,7 +488,6 @@
             });
         }
 
-        // دالة عرض بيانات الطالب
         function loadStudent(id) {
             document.getElementById('hero-section').style.display = 'none';
             document.getElementById('dashboard-card').style.display = 'block';
@@ -461,11 +495,8 @@
             document.getElementById(`btn-${id}`).classList.add('active');
 
             const student = studentsData.find(s => s.id === id);
-            
-            // تحديث الاسم
             document.getElementById('display-student-name').innerText = student.name;
 
-            // تحديث الصورة
             const imgContainer = document.getElementById('slide-image-container');
             const imgElement = document.getElementById('slide-image');
 
@@ -477,9 +508,7 @@
             }
         }
 
-        // ==========================================
-        // دوال تكبير الصورة (Fullscreen)
-        // ==========================================
+        // دوال تكبير الصورة
         function openFullscreen() {
             const mainImageSrc = document.getElementById('slide-image').src;
             if (mainImageSrc) {
@@ -491,7 +520,6 @@
         function closeFullscreen() {
             document.getElementById('fullscreen-overlay').classList.remove('active');
         }
-
 
         // --- اللعبة (Quiz) ---
         function openQuiz() {
