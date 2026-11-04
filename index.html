@@ -114,20 +114,45 @@
 
         .slide-content { text-align: center; }
         
-        /* تكبير الصورة جداً عشان تملأ الشاشة */
+        /* تصميم الصورة مع أيقونة التكبير */
         .slide-image-container {
             margin-bottom: 20px;
             display: flex;
             justify-content: center;
             width: 100%;
+            position: relative; /* عشان الأيقونة */
+            cursor: zoom-in; /* شكل الماوس */
         }
+        
+        .slide-image-container::after {
+            content: '\f00e'; /* كود أيقونة البحث/التكبير */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            pointer-events: none; /* عشان متمنعش الضغط */
+            transition: 0.3s;
+        }
+
+        .slide-image-container:hover::after { background: var(--blue-primary); transform: scale(1.1); }
+
         .slide-image-container img {
-            width: 100%; /* تاخد عرض الشاشة */
-            max-height: 60vh; /* تاخد 60% من طول الشاشة عشان متخليش الاسم يختفي */
+            width: 100%; 
+            max-height: 65vh; /* تاخد مساحة كبيرة من الشاشة */
             border-radius: 16px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            object-fit: contain; /* بتظهر الصورة كاملة من غير ما تتقص أو تتكسر */
-            background-color: var(--gray-bg); /* خلفية للصورة لو كانت صغيرة */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            object-fit: contain; 
+            background-color: var(--gray-bg); 
         }
 
         /* اسم الطالب الضخم */
@@ -144,22 +169,39 @@
             display: inline-block;
             background: var(--blue-light);
             color: var(--blue-primary);
-            padding: 6px 20px;
+            padding: 8px 25px;
             border-radius: 30px;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 1px;
         }
 
-        .slide-title {
-            font-size: 24px; color: var(--blue-primary); margin-bottom: 15px;
-            display: flex; justify-content: center; align-items: center; gap: 10px;
+        /* ========================================== */
+        /* شاشة عرض الصورة كاملة (Fullscreen Overlay) */
+        /* ========================================== */
+        .fullscreen-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.95); /* خلفية سوداء شبه معتمة */
+            display: none; justify-content: center; align-items: center;
+            z-index: 99999; cursor: zoom-out;
         }
-        
-        .slide-text {
-            font-size: 18px; line-height: 1.8; color: var(--text-muted);
-            max-width: 800px; margin: 0 auto;
+        .fullscreen-overlay.active { display: flex; animation: fadeIn 0.3s ease-out; }
+
+        .fullscreen-overlay img {
+            max-width: 95%; /* تسيب مساحة 5% حوالين الصورة */
+            max-height: 95%;
+            object-fit: contain; /* تظهر بالكامل من غير ما تتقص */
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(255,255,255,0.1);
         }
+
+        .close-fullscreen {
+            position: absolute; top: 20px; right: 30px;
+            color: var(--white); font-size: 40px; font-weight: bold;
+            cursor: pointer; transition: 0.3s;
+        }
+        .close-fullscreen:hover { color: var(--danger); transform: scale(1.1); }
+
 
         /* ========================================== */
         /* شاشة اللعبة (Quiz) */
@@ -261,9 +303,10 @@
             .logo-icon { width: 35px; height: 35px; font-size: 16px; }
             .action-icon-btn .btn-text { display: none; }
             .action-icon-btn { padding: 0 12px; }
-            .dashboard-card { padding: 20px; }
-            .student-main-name { font-size: 32px; } 
-            .slide-image-container img { max-height: 50vh; }
+            .dashboard-card { padding: 15px; }
+            .student-main-name { font-size: 30px; } 
+            .slide-image-container img { max-height: 55vh; }
+            .slide-image-container::after { top: 10px; right: 10px; width: 30px; height: 30px; font-size: 14px;}
             .quiz-overlay { padding: 15px; }
             .quiz-header h2 { font-size: 20px; }
             .scoreboard { gap: 20px; }
@@ -305,24 +348,33 @@
             <p>Group 3 - Second Year Project Presentation</p>
         </div>
 
+        <!-- كارت عرض السلايد (صورة + اسم + جروب فقط) -->
         <div class="dashboard-card" id="dashboard-card">
             <div class="slide-content">
                 
-                <div class="slide-image-container" id="slide-image-container">
+                <!-- الصورة (بندوس عليها تفتح كاملة) -->
+                <div class="slide-image-container" id="slide-image-container" onclick="openFullscreen()">
                     <img id="slide-image" src="" alt="Student Image">
                 </div>
 
+                <!-- اسم الطالب -->
                 <h1 class="student-main-name" id="display-student-name">Student Name</h1>
-                <div class="student-group-tag">Group 3 Project</div>
-
-                <h3 class="slide-title" id="slide-title"><i class="fa-solid fa-file-medical"></i> Slide Title</h3>
-                <p class="slide-text" id="slide-text">Slide content will appear here...</p>
+                
+                <!-- شارة الجروب -->
+                <div class="student-group-tag">Group 3</div>
                 
             </div>
         </div>
 
     </main>
 
+    <!-- شاشة عرض الصورة كاملة (Fullscreen) -->
+    <div class="fullscreen-overlay" id="fullscreen-overlay" onclick="closeFullscreen()">
+        <span class="close-fullscreen">&times;</span>
+        <img id="fullscreen-img" src="" alt="Fullscreen Image">
+    </div>
+
+    <!-- شاشة اللعبة (Quiz) -->
     <div class="quiz-overlay" id="quiz-overlay">
         <div class="quiz-header">
             <h2><i class="fa-solid fa-gamepad" style="color: var(--warning);"></i> Quiz Challenge</h2>
@@ -348,6 +400,7 @@
         </div>
     </div>
 
+    <!-- نافذة الإعدادات -->
     <div id="settings-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); display: none; justify-content: center; align-items: center; z-index: 1000;">
         <div style="background: var(--white); width: 90%; max-width: 500px; border-radius: 16px; padding: 25px;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
@@ -360,63 +413,18 @@
 
     <script>
         // ==========================================
-        // البيانات: تم تعديل المسار ليكون images/1.jpg
+        // البيانات (الصورة والاسم فقط)
         // ==========================================
         let studentsData = [
-            { 
-                id: 1, 
-                name: "Sondos Mohamed", 
-                slide: { title: "Introduction", body: "Content for Sondos..." }, 
-                imageUrl: "images/1.jpg" // <--- المسار الصح
-            },
-            { 
-                id: 2, 
-                name: "Dina Yasser", 
-                slide: { title: "Basics", body: "Content for Dina..." }, 
-                imageUrl: "images/2.jpg" 
-            },
-            { 
-                id: 3, 
-                name: "Yasmin Hani", 
-                slide: { title: "Data Collection", body: "Content for Yasmin H..." }, 
-                imageUrl: "images/3.jpg" 
-            },
-            { 
-                id: 4, 
-                name: "Maryam Mohamed", 
-                slide: { title: "Data Cleaning", body: "Content for Maryam..." }, 
-                imageUrl: "images/4.jpg" 
-            },
-            { 
-                id: 5, 
-                name: "Abdallah Mahmoud", 
-                slide: { title: "Statistics", body: "Content for Abdallah..." }, 
-                imageUrl: "images/5.jpg" 
-            },
-            { 
-                id: 6, 
-                name: "Shaza Ahmed", 
-                slide: { title: "Visualization", body: "Content for Shaza..." }, 
-                imageUrl: "images/6.jpg" 
-            },
-            { 
-                id: 7, 
-                name: "Renad Ashraf", 
-                slide: { title: "Predictive", body: "Content for Renad..." }, 
-                imageUrl: "images/7.jpg" 
-            },
-            { 
-                id: 8, 
-                name: "Yasmin Ashraf", 
-                slide: { title: "Demographics", body: "Content for Yasmin A..." }, 
-                imageUrl: "images/8.jpg" 
-            },
-            { 
-                id: 9, 
-                name: "Rawan Mostafa", 
-                slide: { title: "Lab Trends", body: "Content for Rawan..." }, 
-                imageUrl: "images/9.jpg" 
-            }
+            { id: 1, name: "Sondos Mohamed", imageUrl: "images/1.jpg" },
+            { id: 2, name: "Dina Yasser", imageUrl: "images/2.jpg" },
+            { id: 3, name: "Yasmin Hani", imageUrl: "images/3.jpg" },
+            { id: 4, name: "Maryam Mohamed", imageUrl: "images/4.jpg" },
+            { id: 5, name: "Abdallah Mahmoud", imageUrl: "images/5.jpg" },
+            { id: 6, name: "Shaza Ahmed", imageUrl: "images/6.jpg" },
+            { id: 7, name: "Renad Ashraf", imageUrl: "images/7.jpg" },
+            { id: 8, name: "Yasmin Ashraf", imageUrl: "images/8.jpg" },
+            { id: 9, name: "Rawan Mostafa", imageUrl: "images/9.jpg" }
         ];
 
         const quizData = [
@@ -445,6 +453,7 @@
             });
         }
 
+        // دالة عرض بيانات الطالب
         function loadStudent(id) {
             document.getElementById('hero-section').style.display = 'none';
             document.getElementById('dashboard-card').style.display = 'block';
@@ -453,10 +462,10 @@
 
             const student = studentsData.find(s => s.id === id);
             
+            // تحديث الاسم
             document.getElementById('display-student-name').innerText = student.name;
-            document.getElementById('slide-title').innerHTML = `<i class="fa-solid fa-file-medical"></i> ${student.slide.title}`;
-            document.getElementById('slide-text').innerText = student.slide.body;
 
+            // تحديث الصورة
             const imgContainer = document.getElementById('slide-image-container');
             const imgElement = document.getElementById('slide-image');
 
@@ -467,6 +476,22 @@
                 imgContainer.style.display = 'none'; 
             }
         }
+
+        // ==========================================
+        // دوال تكبير الصورة (Fullscreen)
+        // ==========================================
+        function openFullscreen() {
+            const mainImageSrc = document.getElementById('slide-image').src;
+            if (mainImageSrc) {
+                document.getElementById('fullscreen-img').src = mainImageSrc;
+                document.getElementById('fullscreen-overlay').classList.add('active');
+            }
+        }
+
+        function closeFullscreen() {
+            document.getElementById('fullscreen-overlay').classList.remove('active');
+        }
+
 
         // --- اللعبة (Quiz) ---
         function openQuiz() {
