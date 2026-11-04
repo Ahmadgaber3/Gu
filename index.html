@@ -1,863 +1,642 @@
  <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>جامعة الجلالة - كلية الطب البشري</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Cairo -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            cairo: ['Cairo', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              dark: '#07151e',
-              card: '#0c2230',
-              teal: '#0d828a',
-              lightTeal: '#14b8a6',
-              accent: '#2dd4bf',
-              surface: '#0f2c3e'
-            }
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytical - Group 3 Project</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* الألوان */
+        :root {
+            --blue-primary: #1e60d2;   
+            --blue-dark: #0f172a;      
+            --blue-light: #eef4ff;     
+            --white: #ffffff;
+            --gray-bg: #f8fafc;
+            --gray-border: #e2e8f0;
+            --text-muted: #64748b;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
         }
-      }
-    }
-  </script>
-  <style>
-    body {
-      font-family: 'Cairo', sans-serif;
-      background-color: #050e14;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    /* أنيميشن ناعم لانتقال الصفحات ومنع التداخل */
-    @keyframes screenEnter {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .screen-fade {
-      animation: screenEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-  </style>
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body {
+            background: linear-gradient(180deg, #f0f5ff 0%, #f8fafc 100%);
+            color: var(--blue-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 70px; 
+        }
+
+        /* الشريط العلوي */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            height: 70px;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-size: 24px; font-weight: 800; color: var(--blue-dark);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .logo-icon {
+            background: linear-gradient(135deg, var(--blue-primary), #154a9e); 
+            color: var(--white); width: 40px; height: 40px; border-radius: 10px;
+            display: flex; justify-content: center; align-items: center; font-size: 18px;
+            box-shadow: 0 4px 10px rgba(30, 96, 210, 0.3);
+        }
+
+        .nav-actions { display: flex; gap: 10px; align-items: center; }
+        .action-icon-btn {
+            background: var(--white); color: var(--text-muted);
+            border: 1px solid var(--gray-border); height: 40px; padding: 0 15px;
+            border-radius: 10px; display: flex; justify-content: center; align-items: center;
+            gap: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
+        .action-icon-btn:hover { background: var(--blue-light); color: var(--blue-primary); border-color: var(--blue-primary); }
+        .quiz-btn { color: var(--warning); border-color: #fcd34d; background: #fffbeb;}
+        .quiz-btn:hover { background: var(--warning); color: var(--white); border-color: var(--warning); }
+
+        /* شريط أزرار الطلاب */
+        .students-nav-container {
+            width: 100%; max-width: 1000px; background: transparent;
+            padding: 15px 20px; display: flex; overflow-x: auto; gap: 10px;
+            scrollbar-width: none; 
+        }
+        .students-nav-container::-webkit-scrollbar { display: none; }
+
+        .student-btn {
+            padding: 6px 16px; border-radius: 50px; border: 1px solid var(--gray-border);
+            background: var(--white); color: var(--text-muted); font-weight: 600;
+            font-size: 13px; cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; gap: 8px; white-space: nowrap;
+        }
+        .student-btn:hover { background: var(--blue-light); border-color: var(--blue-primary); color: var(--blue-primary); }
+        .student-btn.active { background: var(--blue-primary); color: var(--white); border-color: var(--blue-primary); box-shadow: 0 4px 10px rgba(30, 96, 210, 0.2); }
+
+        /* منطقة المحتوى الرئيسية */
+        .main-content {
+            width: 100%; max-width: 1000px;
+            padding: 20px; display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* شاشة الترحيب */
+        .hero-section { text-align: center; margin-top: 5vh; display: block; }
+        .hero-section h1 { font-size: 42px; font-weight: 800; margin-bottom: 15px; }
+        .hero-section h1 span { color: var(--blue-primary); }
+        .hero-section p { font-size: 18px; color: var(--text-muted); font-weight: 500;}
+
+        /* كارت عرض السلايد */
+        .dashboard-card {
+            background: var(--white); width: 100%; border-radius: 20px;
+            box-shadow: var(--shadow); border: 1px solid var(--gray-border);
+            display: none; overflow: hidden; animation: fadeIn 0.3s ease-out;
+            padding: 40px; 
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .slide-content { text-align: center; }
+        
+        .slide-image-container {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+        }
+        .slide-image-container img {
+            max-width: 100%;
+            max-height: 450px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            object-fit: contain; 
+        }
+
+        /* اسم الطالب الضخم */
+        .student-main-name {
+            font-size: 42px; 
+            font-weight: 800;
+            color: var(--blue-dark);
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .student-group-tag {
+            display: inline-block;
+            background: var(--blue-light);
+            color: var(--blue-primary);
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .slide-title {
+            font-size: 24px; color: var(--blue-primary); margin-bottom: 15px;
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        
+        .slide-text {
+            font-size: 18px; line-height: 1.8; color: var(--text-muted);
+            max-width: 800px; margin: 0 auto;
+        }
+
+        /* ========================================== */
+        /* شاشة اللعبة (Quiz) */
+        /* ========================================== */
+        .quiz-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(135deg, #f0f5ff 0%, #ffffff 100%);
+            z-index: 9999; display: none; flex-direction: column; padding: 20px 40px; overflow: hidden; 
+        }
+        .quiz-overlay.active { display: flex; animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .quiz-header h2 { font-size: 28px; font-weight: 800; color: var(--blue-dark); }
+        .exit-btn {
+            background: var(--danger); color: var(--white); border: none;
+            padding: 10px 20px; border-radius: 10px; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;
+        }
+        .exit-btn:hover { background: #b91c1c; transform: translateY(-2px); }
+
+        .scoreboard { display: flex; justify-content: center; gap: 40px; margin-bottom: 25px; flex-shrink: 0; }
+        .team-score {
+            width: 160px; height: 160px; background: var(--white); border-radius: 20px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border: 3px solid var(--gray-border); transition: 0.3s ease-in-out; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative;
+        }
+        .team-score.active-team {
+            border-color: var(--blue-primary); background: var(--blue-light);
+            transform: scale(1.1); box-shadow: 0 0 0 6px rgba(30, 96, 210, 0.2), 0 10px 25px rgba(30, 96, 210, 0.4);
+            animation: pulse-blue 1.5s infinite;
+        }
+        @keyframes pulse-blue {
+            0% { box-shadow: 0 0 0 0 rgba(30, 96, 210, 0.5), 0 10px 25px rgba(30, 96, 210, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(30, 96, 210, 0), 0 10px 25px rgba(30, 96, 210, 0.4); }
+            100% { box-shadow: 0 0 0 0 rgba(30, 96, 210, 0), 0 10px 25px rgba(30, 96, 210, 0.4); }
+        }
+        .turn-badge {
+            position: absolute; top: -15px; background: var(--blue-primary); color: var(--white);
+            padding: 4px 15px; border-radius: 20px; font-size: 12px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 1px; opacity: 0; transform: translateY(10px);
+            transition: 0.3s; box-shadow: 0 4px 10px rgba(30, 96, 210, 0.3);
+        }
+        .team-score.active-team .turn-badge { opacity: 1; transform: translateY(0); }
+        .team-score h3 { font-size: 18px; margin-bottom: 5px; color: var(--text-muted); font-weight: 600; transition: 0.3s; }
+        .team-score.active-team h3 { color: var(--blue-primary); font-weight: 800; }
+        .team-score .score { font-size: 48px; font-weight: 800; color: var(--blue-dark); line-height: 1; }
+        .team-score.active-team .score { color: var(--blue-primary); }
+
+        .quiz-card {
+            background: var(--white); border-radius: 20px; padding: 30px;
+            box-shadow: var(--shadow); border: 1px solid var(--gray-border);
+            flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: center;
+        }
+        .question-text { font-size: 32px; font-weight: 700; color: var(--blue-dark); margin-bottom: 30px; direction: ltr; line-height: 1.4; }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .option-btn {
+            background: var(--gray-bg); border: 2px solid var(--gray-border);
+            padding: 20px; border-radius: 16px; font-size: 20px; font-weight: 600;
+            color: var(--blue-dark); cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; justify-content: space-between; direction: ltr; 
+        }
+        .option-content { display: flex; align-items: center; gap: 15px; }
+        .option-btn .letter {
+            background: var(--white); width: 40px; height: 40px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 18px; color: var(--text-muted); border: 1px solid var(--gray-border); flex-shrink: 0;
+        }
+        .status-icon { display: none; font-size: 28px; }
+        .option-btn:hover:not(.disabled) { border-color: var(--blue-primary); background: var(--blue-light); transform: translateY(-3px); }
+        .option-btn:hover:not(.disabled) .letter { background: var(--blue-primary); color: var(--white); }
+        .option-btn.correct { background: #ecfdf5; border-color: var(--success); color: var(--success); }
+        .option-btn.correct .letter { background: var(--success); color: var(--white); }
+        .option-btn.correct .check-icon { display: block; color: var(--success); }
+        .option-btn.correct .cross-icon { display: none !important; }
+        .option-btn.wrong { background: #fef2f2; border-color: var(--danger); color: var(--danger); }
+        .option-btn.wrong .letter { background: var(--danger); color: var(--white); }
+        .option-btn.wrong .cross-icon { display: block; color: var(--danger); }
+        .option-btn.wrong .check-icon { display: none !important; }
+        .option-btn.disabled { cursor: not-allowed; }
+
+        .feedback-text { font-size: 22px; font-weight: 700; height: 30px; margin-bottom: 15px; opacity: 0; transition: 0.3s; }
+        .feedback-text.show { opacity: 1; animation: pop 0.4s ease; }
+        @keyframes pop { 0% { transform: scale(0.8); } 100% { transform: scale(1); } }
+
+        .next-btn {
+            background: var(--blue-primary); color: var(--white); border: none;
+            padding: 15px 50px; border-radius: 12px; font-size: 20px; font-weight: 700;
+            cursor: pointer; transition: 0.3s; display: none; align-self: center;
+        }
+        .next-btn:hover { background: #154a9e; transform: scale(1.05); }
+
+        /* الموبايل */
+        @media (max-width: 768px) {
+            .navbar { padding: 0 15px; }
+            .logo { font-size: 20px; }
+            .logo-icon { width: 35px; height: 35px; font-size: 16px; }
+            .action-icon-btn .btn-text { display: none; }
+            .action-icon-btn { padding: 0 12px; }
+            .dashboard-card { padding: 20px; }
+            .student-main-name { font-size: 28px; } 
+            .slide-image-container img { max-height: 250px; }
+            .quiz-overlay { padding: 15px; }
+            .quiz-header h2 { font-size: 20px; }
+            .scoreboard { gap: 20px; }
+            .team-score { width: 120px; height: 120px; }
+            .team-score .score { font-size: 36px; }
+            .team-score h3 { font-size: 14px; }
+            .question-text { font-size: 20px; margin-bottom: 15px; }
+            .options-grid { grid-template-columns: 1fr; gap: 10px; }
+            .option-btn { padding: 12px; font-size: 16px; }
+            .option-btn .letter { width: 30px; height: 30px; font-size: 14px; }
+            .next-btn { padding: 12px 30px; font-size: 16px; }
+            .hero-section h1 { font-size: 32px; }
+        }
+    </style>
 </head>
-<body class="text-slate-100 min-h-screen flex justify-center items-center p-0 sm:p-4">
+<body>
 
-  <!-- إطار شاشة الموبايل -->
-  <div class="w-full sm:max-w-md h-screen sm:h-[860px] bg-gradient-to-b from-[#091e2b] via-[#07151e] to-[#040c12] sm:rounded-[36px] shadow-2xl border-0 sm:border border-slate-800 flex flex-col overflow-hidden relative">
-
-    <!-- الترويسة العلوية الثابتة -->
-    <header class="p-4 pt-6 pb-3.5 bg-[#091e2b]/95 backdrop-blur-md border-b border-white/10 flex items-center justify-between sticky top-0 z-30 shadow-md">
-      <div class="flex items-center gap-3">
-        <button id="backBtn" onclick="handleBackAction()" class="hidden w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 active:scale-95 flex items-center justify-center transition border border-white/10 text-brand-accent">
-          <i data-lucide="arrow-right" class="w-5 h-5"></i>
-        </button>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-brand-lightTeal shadow-[0_0_8px_#14b8a6]"></span>
-            <h1 id="screenTitle" class="text-base sm:text-lg font-extrabold tracking-wide text-white">جامعة الجلالة</h1>
-          </div>
-          <p id="screenSubtitle" class="text-[11px] text-slate-400 mt-0.5">بوابة كلية الطب البشري</p>
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+            Analytical
         </div>
-      </div>
-      
-      <div class="flex items-center gap-2">
-        <button onclick="renderNotifications()" class="relative w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-brand-accent transition">
-          <i data-lucide="bell" class="w-4 h-4"></i>
-          <span id="headerBadge" class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-brand-accent ring-2 ring-[#091e2b]"></span>
-        </button>
-        <div onclick="renderProfile()" class="cursor-pointer w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-teal to-brand-accent p-[1.5px] shadow-lg shadow-brand-teal/20">
-          <div class="w-full h-full bg-[#091e2b] rounded-[10px] flex items-center justify-center text-brand-accent">
-            <i data-lucide="user" class="w-4 h-4"></i>
-          </div>
+        <div class="nav-actions">
+            <button class="action-icon-btn quiz-btn" onclick="openQuiz()">
+                <i class="fa-solid fa-gamepad"></i> <span class="btn-text">Quiz Game</span>
+            </button>
+            <button class="action-icon-btn" onclick="openSettings()" title="Settings">
+                <i class="fa-solid fa-gear"></i>
+            </button>
         </div>
-      </div>
-    </header>
+    </nav>
 
-    <!-- مسار التنقل التفاعلي مع فاصل واضح تماماً -->
-    <div id="subHeader" class="px-5 py-2.5 bg-black/40 border-b border-white/10 flex items-center justify-between text-[11px] font-semibold text-slate-400 z-20 shadow-sm">
-      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar" id="navIndicator">
-        <span class="text-brand-accent font-bold">اختيار الكلية</span>
-      </div>
-      <span id="stepCounter" class="bg-brand-teal/20 text-brand-accent px-2.5 py-0.5 rounded-full text-[10px] border border-brand-teal/30">الخطوة الأولى</span>
-    </div>
+    <div class="students-nav-container" id="students-nav"></div>
 
-    <!-- المحتوى الداخلي -->
-    <main class="flex-1 overflow-y-auto p-4 sm:p-5 no-scrollbar pb-24" id="mainContainer">
-      <!-- يتم حقن المحتوى برمجياً -->
+    <main class="main-content">
+        
+        <div class="hero-section" id="hero-section">
+            <h1>Medical Data <span>Analytics</span></h1>
+            <p>Group 3 - Second Year Project Presentation</p>
+        </div>
+
+        <div class="dashboard-card" id="dashboard-card">
+            <div class="slide-content">
+                
+                <div class="slide-image-container" id="slide-image-container">
+                    <img id="slide-image" src="" alt="Student Image">
+                </div>
+
+                <h1 class="student-main-name" id="display-student-name">Student Name</h1>
+                <div class="student-group-tag">Group 3 Project</div>
+
+                <h3 class="slide-title" id="slide-title"><i class="fa-solid fa-file-medical"></i> Slide Title</h3>
+                <p class="slide-text" id="slide-text">Slide content will appear here...</p>
+                
+            </div>
+        </div>
+
     </main>
 
-    <!-- شريط التنقل السفلي -->
-    <nav class="absolute bottom-0 inset-x-0 bg-[#071620]/95 backdrop-blur-lg border-t border-white/10 px-6 py-2.5 flex justify-around items-center z-30">
-      <button id="navHomeBtn" onclick="goToHomeFlow()" class="flex flex-col items-center gap-1 text-brand-accent transition">
-        <div class="w-10 h-8 rounded-full bg-brand-teal/20 flex items-center justify-center">
-          <i data-lucide="home" class="w-4 h-4"></i>
+    <div class="quiz-overlay" id="quiz-overlay">
+        <div class="quiz-header">
+            <h2><i class="fa-solid fa-gamepad" style="color: var(--warning);"></i> Quiz Challenge</h2>
+            <button class="exit-btn" onclick="closeQuiz()"><i class="fa-solid fa-right-from-bracket"></i> Exit</button>
         </div>
-        <span class="text-[10px] font-bold">الرئيسية</span>
-      </button>
-
-      <button id="navNotifBtn" onclick="renderNotifications()" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
-        <div class="w-10 h-8 flex items-center justify-center relative">
-          <i data-lucide="bell" class="w-4 h-4"></i>
-          <span class="absolute top-1 right-2 w-1.5 h-1.5 rounded-full bg-brand-accent"></span>
+        <div class="scoreboard">
+            <div class="team-score" id="team1-card">
+                <div class="turn-badge">Turn</div>
+                <h3>Group 1</h3>
+                <div class="score" id="team1-score">0</div>
+            </div>
+            <div class="team-score" id="team2-card">
+                <div class="turn-badge">Turn</div>
+                <h3>Group 2</h3>
+                <div class="score" id="team2-score">0</div>
+            </div>
         </div>
-        <span class="text-[10px]">الإشعارات</span>
-      </button>
-
-      <button id="navProfileBtn" onclick="renderProfile()" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
-        <div class="w-10 h-8 flex items-center justify-center">
-          <i data-lucide="user" class="w-4 h-4"></i>
+        <div class="quiz-card">
+            <div class="question-text" id="question-text">Question will appear here...</div>
+            <div class="options-grid" id="options-container"></div>
+            <div class="feedback-text" id="feedback-text"></div>
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question <i class="fa-solid fa-arrow-left"></i></button>
         </div>
-        <span class="text-[10px]">حسابي</span>
-      </button>
-    </nav>
-  </div>
+    </div>
 
-  <script>
-    // بيانات الكليات في جامعة الجلالة
-    const facultiesData = [
-      {
-        id: "medicine",
-        name: "كلية الطب البشري",
-        englishName: "Faculty of Medicine",
-        icon: "stethoscope",
-        isAvailable: true,
-        desc: "البرنامج الأكاديمي المطور بنظام الساعات المعتمدة والموديولات"
-      },
-      {
-        id: "dentistry",
-        name: "كلية طب الأسنان",
-        englishName: "Faculty of Dentistry",
-        icon: "smile",
-        isAvailable: false,
-        desc: "برامج جراحة الفم والأسنان المتقدمة (قريباً)"
-      },
-      {
-        id: "pharmacy",
-        name: "كلية الصيدلة الإكلينيكية",
-        englishName: "Faculty of Pharmacy",
-        icon: "pill",
-        isAvailable: false,
-        desc: "برنامج دكتور صيدلي Pharm D (قريباً)"
-      }
-    ];
+    <div id="settings-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); display: none; justify-content: center; align-items: center; z-index: 1000;">
+        <div style="background: var(--white); width: 90%; max-width: 500px; border-radius: 16px; padding: 25px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <h2 style="font-size: 22px; color: var(--blue-dark);"><i class="fa-solid fa-gear"></i> Manage Students</h2>
+                <button onclick="closeSettings()" style="background: none; border: none; font-size: 20px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="settings-list" style="max-height: 400px; overflow-y: auto;"></div>
+        </div>
+    </div>
 
-    // بيانات الفصول والمواد الطبية لجامعة الجلالة
-    const academicMedicalData = {
-      semesters: [
-        {
-          id: 1,
-          name: "الترم الأول (Level 1)",
-          code: "MED-SEM-01",
-          termTitle: "العلوم الطبية الأساسية (Basic Medical Sciences)",
-          subjects: [
-            {
-              id: "anat101",
-              name: "التشريح البشري العام (Human Anatomy I)",
-              code: "ANAT 101",
-              doctor: "أ.د. عصام النجار",
-              lectures: [
-                {
-                  id: 1,
-                  title: "المحاضرة 1: مقدمة في المصطلحات التشريحية وعظام الصدر والذراع",
-                  pdfName: "Lecture_01_Anatomy_Upper_Limb.pdf",
-                  pdfSize: "4.8 MB",
-                  labTitle: "لاب المشرحة 1: فحص مجسمات عظام الطرف العلوي (Upper Limb Bones)"
-                },
-                {
-                  id: 2,
-                  title: "المحاضرة 2: تشريح العضلات والأوتار الرئيسية (Muscular System)",
-                  pdfName: "Lecture_02_Pectoral_Muscles.pdf",
-                  pdfSize: "6.2 MB",
-                  labTitle: "لاب المشرحة 2: دراسة وتشريح عضلات القفص الصدري"
-                },
-                {
-                  id: 3,
-                  title: "المحاضرة 3: الجهاز الدوري والأوعية الدموية المغذية (Cardiovascular Anatomy)",
-                  pdfName: "Lecture_03_Cardio_Vessels.pdf",
-                  pdfSize: "5.1 MB",
-                  labTitle: "لاب المشرحة 3: تتبع مسارات الشرايين الرئيسية والأوردة"
-                }
-              ]
+    <script>
+        // ==========================================
+        // البيانات (استخدمت أرقام 1.jpg, 2.jpg عشان نتفادى مشاكل الآيفون)
+        // ==========================================
+        let studentsData = [
+            { 
+                id: 1, 
+                name: "Sondos Mohamed", 
+                slide: { title: "Introduction", body: "Content for Sondos..." }, 
+                imageUrl: "1.jpg" // حط صورة الطالب الأول وسميها 1.jpg
             },
-            {
-              id: "phys101",
-              name: "وظائف الأعضاء الطبية (Medical Physiology I)",
-              code: "PHYS 101",
-              doctor: "د. هبة عبد الرحمن",
-              lectures: [
-                {
-                  id: 1,
-                  title: "المحاضرة 1: فسيولوجيا الخلية والنقل عبر الغشاء الخلوي",
-                  pdfName: "Lecture_01_Cell_Physiology.pdf",
-                  pdfSize: "3.9 MB",
-                  labTitle: "معمل الفسيولوجي 1: تجربة الضغط الإسموزي والتناضح"
-                },
-                {
-                  id: 2,
-                  title: "المحاضرة 2: جهد الفعل العصبي وانقباض العضلات (Action Potential)",
-                  pdfName: "Lecture_02_Action_Potential.pdf",
-                  pdfSize: "4.4 MB",
-                  labTitle: "معمل الفسيولوجي 2: تخطيط وتوصيل الإشارة العصبية العضلية"
-                }
-              ]
+            { 
+                id: 2, 
+                name: "Dina Yasser", 
+                slide: { title: "Basics", body: "Content for Dina..." }, 
+                imageUrl: "2.jpg" // صورة الطالب التاني 2.jpg
             },
-            {
-              id: "biochem101",
-              name: "الكيمياء الحيوية الطبية (Medical Biochemistry)",
-              code: "BIOC 101",
-              doctor: "د. محمود يوسف",
-              lectures: [
-                {
-                  id: 1,
-                  title: "المحاضرة 1: كيمياء السكريات الحيوية (Carbohydrate Chemistry)",
-                  pdfName: "Lecture_01_Carbohydrates.pdf",
-                  pdfSize: "5.5 MB",
-                  labTitle: "معمل الكيمياء 1: اختبارات الكشف المعملي عن الجلوكوز"
-                }
-              ]
+            { 
+                id: 3, 
+                name: "Yasmin Hani", 
+                slide: { title: "Data Collection", body: "Content for Yasmin H..." }, 
+                imageUrl: "3.jpg" 
+            },
+            { 
+                id: 4, 
+                name: "Maryam Mohamed", 
+                slide: { title: "Data Cleaning", body: "Content for Maryam..." }, 
+                imageUrl: "4.jpg" 
+            },
+            { 
+                id: 5, 
+                name: "Abdallah Mahmoud", 
+                slide: { title: "Statistics", body: "Content for Abdallah..." }, 
+                imageUrl: "5.jpg" 
+            },
+            { 
+                id: 6, 
+                name: "Shaza Ahmed", 
+                slide: { title: "Visualization", body: "Content for Shaza..." }, 
+                imageUrl: "6.jpg" 
+            },
+            { 
+                id: 7, 
+                name: "Renad Ashraf", 
+                slide: { title: "Predictive", body: "Content for Renad..." }, 
+                imageUrl: "7.jpg" 
+            },
+            { 
+                id: 8, 
+                name: "Yasmin Ashraf", 
+                slide: { title: "Demographics", body: "Content for Yasmin A..." }, 
+                imageUrl: "8.jpg" 
+            },
+            { 
+                id: 9, 
+                name: "Rawan Mostafa", 
+                slide: { title: "Lab Trends", body: "Content for Rawan..." }, 
+                imageUrl: "9.jpg" 
             }
-          ]
-        },
-        {
-          id: 2,
-          name: "الترم الثاني (Level 2)",
-          code: "MED-SEM-02",
-          termTitle: "علم الأنسجة والأحياء الدقيقة",
-          subjects: [
-            {
-              id: "hist102",
-              name: "علم الأنسجة وخلايا الجسم (Histology)",
-              code: "HIST 102",
-              doctor: "د. منال فوزي",
-              lectures: [
-                {
-                  id: 1,
-                  title: "المحاضرة 1: الأنسجة الطلائية والضامة (Epithelial Tissue)",
-                  pdfName: "Lecture_01_Histology_Tissues.pdf",
-                  pdfSize: "8.1 MB",
-                  labTitle: "لاب الميكروسكوب 1: صبغ وفحص شرائح النسيج الطلائي"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: 3,
-          name: "الترم الثالث (Level 3)",
-          code: "MED-SEM-03",
-          termTitle: "علم الأمراض ومقدمة الفارماكولوجي",
-          subjects: [
-            {
-              id: "path201",
-              name: "علم الأمراض العام (General Pathology)",
-              code: "PATH 201",
-              doctor: "أ.د. سامح كمال",
-              lectures: [
-                {
-                  id: 1,
-                  title: "المحاضرة 1: الاستجابة المناعية والالتهاب الحاد (Acute Inflammation)",
-                  pdfName: "Lecture_01_Pathology_Intro.pdf",
-                  pdfSize: "6.7 MB",
-                  labTitle: "لاب الباثولوجي 1: دراسة عينات التليف والالتهاب النسيجي"
-                }
-              ]
-            }
-          ]
+        ];
+
+        const quizData = [
+            { question: "What is the primary goal of Data Analytics?", options: ["Data Entry", "Extracting Insights", "Web Design", "Hardware Repair"], correctAnswer: 1 },
+            { question: "Which chart is best for showing trends over time?", options: ["Pie Chart", "Bar Chart", "Line Chart", "Scatter Plot"], correctAnswer: 2 },
+            { question: "What does 'Data Cleaning' mean?", options: ["Deleting data", "Fixing inaccurate records", "Organizing files", "Printing reports"], correctAnswer: 1 },
+            { question: "In Medical Analytics, what does KPI stand for?", options: ["Key Performance Indicator", "Kidney Pain Index", "Knowledge Process Integration", "Keep Patient Informed"], correctAnswer: 0 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let currentTeam = 1; 
+        let team1Score = 0;
+        let team2Score = 0;
+        let canClick = true; 
+
+        function renderNav() {
+            const navContainer = document.getElementById('students-nav');
+            navContainer.innerHTML = ''; 
+            studentsData.forEach((student, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'student-btn';
+                btn.id = `btn-${student.id}`;
+                btn.innerHTML = `<i class="fa-solid fa-user-graduate"></i> ${index + 1}. ${student.name.split(' ')[0]}`;
+                btn.onclick = () => loadStudent(student.id);
+                navContainer.appendChild(btn);
+            });
         }
-      ]
-    };
 
-    let notificationsData = [
-      {
-        id: 1,
-        title: "تحديد موعد امتحان منتصف الفصل (Anatomy)",
-        time: "منذ 20 دقيقة",
-        desc: "سيعقد الاختبار داخل مبنى المشرحة بكلية الطب الأسبوع القادم.",
-        unread: true,
-        type: "quiz"
-      },
-      {
-        id: 2,
-        title: "رفع ملف PDF الجديد لمادة الفسيولوجي",
-        time: "منذ ساعتين",
-        desc: "تم إرفاق السلايدات المعدلة لمحاضرة جهد الفعل العصبي.",
-        unread: true,
-        type: "lab"
-      }
-    ];
+        function loadStudent(id) {
+            document.getElementById('hero-section').style.display = 'none';
+            document.getElementById('dashboard-card').style.display = 'block';
+            document.querySelectorAll('.student-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-${id}`).classList.add('active');
 
-    let currentState = {
-      view: 'faculties', // faculties | semesters | subjects | lectures | notifications | profile
-      selectedFaculty: null,
-      selectedSemester: null,
-      selectedSubject: null
-    };
-
-    const container = document.getElementById('mainContainer');
-    const backBtn = document.getElementById('backBtn');
-    const screenTitle = document.getElementById('screenTitle');
-    const screenSubtitle = document.getElementById('screenSubtitle');
-    const navIndicator = document.getElementById('navIndicator');
-    const stepCounter = document.getElementById('stepCounter');
-    const headerBadge = document.getElementById('headerBadge');
-
-    function updateNavButtons(activeTab) {
-      const home = document.getElementById('navHomeBtn');
-      const notif = document.getElementById('navNotifBtn');
-      const prof = document.getElementById('navProfileBtn');
-
-      [home, notif, prof].forEach(b => {
-        b.className = "flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition";
-        const iconWrap = b.querySelector('div');
-        iconWrap.className = iconWrap.className.replace('bg-brand-teal/20 text-brand-accent', '').trim();
-      });
-
-      if (activeTab === 'home') {
-        home.className = "flex flex-col items-center gap-1 text-brand-accent transition";
-        home.querySelector('div').classList.add('bg-brand-teal/20');
-      } else if (activeTab === 'notif') {
-        notif.className = "flex flex-col items-center gap-1 text-brand-accent transition";
-        notif.querySelector('div').classList.add('bg-brand-teal/20');
-      } else if (activeTab === 'profile') {
-        prof.className = "flex flex-col items-center gap-1 text-brand-accent transition";
-        prof.querySelector('div').classList.add('bg-brand-teal/20');
-      }
-    }
-
-    // 0. شاشة اختيار الكلية أول ما يفتح التطبيق
-    function renderFaculties() {
-      currentState.view = 'faculties';
-      currentState.selectedFaculty = null;
-      currentState.selectedSemester = null;
-      currentState.selectedSubject = null;
-      updateNavButtons('home');
-
-      backBtn.classList.add('hidden');
-      screenTitle.innerText = "جامعة الجلالة";
-      screenSubtitle.innerText = "Galala University Portal";
-      navIndicator.innerHTML = `<span class="text-brand-accent font-bold">بوابة الكليات</span>`;
-      stepCounter.innerText = "الخطوة الأولى";
-
-      let html = `
-        <div class="screen-fade space-y-4">
-          <!-- كارت تعريفي مفصول بوضوح -->
-          <div class="mb-5 p-4 rounded-2xl bg-gradient-to-r from-brand-teal/25 via-[#0d828a]/10 to-transparent border border-brand-teal/30 flex items-center justify-between shadow-lg">
-            <div>
-              <span class="text-[10px] font-bold bg-brand-lightTeal/20 text-brand-accent px-2 py-0.5 rounded-full border border-brand-teal/40">بوابة الطلاب الذكية</span>
-              <h2 class="text-sm font-extrabold text-white mt-1.5">اختر الكلية لمتابعة دراستك</h2>
-              <p class="text-xs text-slate-300">جامعة الجلالة الأهلية - هضبة الجلالة</p>
-            </div>
-            <div class="w-11 h-11 rounded-2xl bg-brand-lightTeal/20 flex items-center justify-center text-brand-accent border border-brand-teal/30 shrink-0">
-              <i data-lucide="building" class="w-6 h-6"></i>
-            </div>
-          </div>
-
-          <div class="space-y-3.5 pt-1">
-      `;
-
-      facultiesData.forEach((fac) => {
-        if (fac.isAvailable) {
-          html += `
-            <div onclick="selectFaculty('${fac.id}')" 
-                 class="group cursor-pointer p-4 rounded-2xl bg-[#0c2230] border border-brand-teal/40 hover:border-brand-accent hover:bg-[#102d40] transition-all duration-200 active:scale-[0.98] shadow-md flex items-center justify-between">
-              <div class="flex items-center gap-3.5">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-teal to-[#063f43] flex items-center justify-center text-white shadow-md shadow-brand-teal/20 group-hover:scale-105 transition">
-                  <i data-lucide="${fac.icon}" class="w-6 h-6"></i>
-                </div>
-                <div>
-                  <div class="flex items-center gap-2">
-                    <h3 class="text-base font-bold text-white group-hover:text-brand-accent transition">${fac.name}</h3>
-                    <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded border border-emerald-500/30">متاح الآن</span>
-                  </div>
-                  <p class="text-xs text-slate-400 mt-0.5 font-mono">${fac.englishName}</p>
-                  <p class="text-[11px] text-slate-300 mt-1">${fac.desc}</p>
-                </div>
-              </div>
-              <div class="w-8 h-8 rounded-full bg-brand-teal/20 flex items-center justify-center text-brand-accent group-hover:bg-brand-teal group-hover:text-white transition shrink-0 mr-2">
-                <i data-lucide="chevron-left" class="w-4 h-4"></i>
-              </div>
-            </div>
-          `;
-        } else {
-          html += `
-            <div class="p-4 rounded-2xl bg-[#0c2230]/40 border border-white/5 opacity-60 flex items-center justify-between cursor-not-allowed">
-              <div class="flex items-center gap-3.5">
-                <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-slate-500">
-                  <i data-lucide="${fac.icon}" class="w-6 h-6"></i>
-                </div>
-                <div>
-                  <h3 class="text-sm font-bold text-slate-400">${fac.name}</h3>
-                  <p class="text-[11px] text-slate-500 mt-0.5">${fac.desc}</p>
-                </div>
-              </div>
-              <span class="text-[10px] text-slate-500 bg-white/5 px-2 py-1 rounded-md">قريباً</span>
-            </div>
-          `;
-        }
-      });
-
-      html += `</div></div>`;
-      container.innerHTML = html;
-      lucide.createIcons();
-    }
-
-    function selectFaculty(facultyId) {
-      currentState.selectedFaculty = facultyId;
-      renderSemesters();
-    }
-
-    // 1. شاشة الفصول والترمات مفصولة ومتباعدة تماماً
-    function renderSemesters() {
-      currentState.view = 'semesters';
-      currentState.selectedSemester = null;
-      currentState.selectedSubject = null;
-      updateNavButtons('home');
-
-      backBtn.classList.remove('hidden');
-      screenTitle.innerText = "كلية الطب البشري";
-      screenSubtitle.innerText = "جامعة الجلالة - المقررات والترمات";
-      navIndicator.innerHTML = `
-        <span class="cursor-pointer hover:underline text-slate-400" onclick="renderFaculties()">الكليات</span>
-        <i data-lucide="chevron-left" class="w-3 h-3 text-slate-500 inline"></i>
-        <span class="text-brand-accent font-bold">كلية الطب</span>
-      `;
-      stepCounter.innerText = "اختيار الترم";
-
-      let html = `
-        <div class="screen-fade space-y-4">
-          <!-- كارت الهيدر الخاص بالعام الأكاديمي مفصول بمسافة وحافة سفلية صريحة -->
-          <div class="mb-6 p-4 rounded-2xl bg-gradient-to-r from-brand-teal/20 via-[#0d828a]/10 to-transparent border border-brand-teal/30 shadow-md">
-            <div class="flex items-center justify-between pb-2 border-b border-white/10">
-              <div>
-                <span class="text-[10px] font-bold bg-brand-lightTeal/20 text-brand-accent px-2 py-0.5 rounded-full border border-brand-teal/30">العام الجامعي 2026 / 2027</span>
-                <h2 class="text-sm font-bold text-white mt-1">كلية الطب - جامعة الجلالة</h2>
-              </div>
-              <div class="w-9 h-9 rounded-xl bg-brand-teal/20 flex items-center justify-center text-brand-accent">
-                <i data-lucide="calendar" class="w-4 h-4"></i>
-              </div>
-            </div>
-            <p class="text-xs text-slate-300 mt-2.5">اختر الترم الدراسي المطلوب لاستعراض الموديولات والمحاضرات الطبية واللابات المقررة.</p>
-          </div>
-
-          <!-- قائمة الترمات مفصولة ومتباينة -->
-          <div class="space-y-3 pt-1">
-      `;
-
-      academicMedicalData.semesters.forEach((sem, idx) => {
-        html += `
-          <div onclick="selectSemester(${sem.id})" 
-               class="group cursor-pointer p-4 rounded-2xl bg-[#0c2230] border border-white/10 hover:border-brand-lightTeal/60 hover:bg-[#102d40] transition-all duration-200 active:scale-[0.98] shadow-md flex items-center justify-between">
-            <div class="flex items-center gap-3.5">
-              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-teal to-[#063f43] flex items-center justify-center text-white shadow-md shadow-brand-teal/20 group-hover:scale-105 transition font-black text-sm">
-                0${idx + 1}
-              </div>
-              <div>
-                <h3 class="text-base font-bold text-white group-hover:text-brand-accent transition">${sem.name}</h3>
-                <p class="text-xs text-slate-400 mt-0.5">${sem.termTitle}</p>
-                <span class="inline-block mt-1 text-[10px] text-brand-accent bg-brand-teal/20 px-2 py-0.5 rounded-md border border-brand-teal/30 font-semibold">${sem.subjects.length} مواد طبية أساسية</span>
-              </div>
-            </div>
-            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 group-hover:text-brand-accent group-hover:bg-brand-teal/20 transition">
-              <i data-lucide="chevron-left" class="w-4 h-4"></i>
-            </div>
-          </div>
-        `;
-      });
-
-      html += `</div></div>`;
-      container.innerHTML = html;
-      lucide.createIcons();
-    }
-
-    // 2. شاشة موديولات ومواد الترم
-    function selectSemester(semesterId) {
-      const sem = academicMedicalData.semesters.find(s => s.id === semesterId);
-      if (!sem) return;
-
-      currentState.view = 'subjects';
-      currentState.selectedSemester = sem;
-      updateNavButtons('home');
-
-      backBtn.classList.remove('hidden');
-      screenTitle.innerText = sem.name;
-      screenSubtitle.innerText = "اختر المادة الطبية للمتابعة";
-      navIndicator.innerHTML = `
-        <span class="cursor-pointer hover:underline text-slate-400" onclick="renderSemesters()">الترمات</span>
-        <i data-lucide="chevron-left" class="w-3 h-3 text-slate-500 inline"></i>
-        <span class="text-brand-accent font-bold">${sem.name}</span>
-      `;
-      stepCounter.innerText = `${sem.subjects.length} مواد`;
-
-      let html = `
-        <div class="screen-fade space-y-4">
-          <div class="mb-4 p-3.5 rounded-2xl bg-black/30 border border-white/5 flex items-center justify-between">
-            <div>
-              <p class="text-xs font-semibold text-white">موديولات ${sem.termTitle}</p>
-              <p class="text-[11px] text-slate-400 mt-0.5">مقررات معتمدة لكلية الطب البشري</p>
-            </div>
-            <span class="text-[10px] text-brand-accent bg-brand-teal/20 px-2.5 py-1 rounded-full border border-brand-teal/30 font-bold">${sem.subjects.length} مقررات</span>
-          </div>
-
-          <div class="space-y-3.5">
-      `;
-
-      sem.subjects.forEach(sub => {
-        html += `
-          <div onclick="selectSubject('${sub.id}')"
-               class="group cursor-pointer p-4 rounded-2xl bg-[#0c2230] border border-white/10 hover:border-brand-lightTeal/60 hover:bg-[#102d40] transition-all duration-200 active:scale-[0.98] shadow-md flex items-center justify-between">
-            <div class="flex items-center gap-3.5">
-              <div class="w-12 h-12 rounded-xl bg-brand-surface border border-brand-teal/40 flex items-center justify-center text-brand-accent group-hover:bg-brand-teal group-hover:text-white transition">
-                <i data-lucide="stethoscope" class="w-6 h-6"></i>
-              </div>
-              <div>
-                <h3 class="text-sm font-bold text-white group-hover:text-brand-accent transition leading-snug">${sub.name}</h3>
-                <p class="text-xs text-slate-400 mt-0.5 flex items-center gap-1">
-                  <i data-lucide="user-check" class="w-3.5 h-3.5 text-brand-lightTeal"></i>
-                  <span>${sub.doctor}</span>
-                </p>
-                <div class="flex items-center gap-2 mt-1.5">
-                  <span class="text-[10px] bg-brand-teal/20 text-brand-accent px-1.5 py-0.5 rounded font-mono font-bold">${sub.code}</span>
-                  <span class="text-[10px] text-slate-400">• ${sub.lectures.length} محاضرات ومعامل وPDF</span>
-                </div>
-              </div>
-            </div>
-            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 group-hover:text-brand-accent group-hover:bg-brand-teal/20 transition">
-              <i data-lucide="chevron-left" class="w-4 h-4"></i>
-            </div>
-          </div>
-        `;
-      });
-
-      html += `</div></div>`;
-      container.innerHTML = html;
-      lucide.createIcons();
-    }
-
-    // 3. شاشة المحاضرات واللابات وملفات الـ PDF لكل محاضرة
-    function selectSubject(subjectId) {
-      const sub = currentState.selectedSemester.subjects.find(s => s.id === subjectId);
-      if (!sub) return;
-
-      currentState.view = 'lectures';
-      currentState.selectedSubject = sub;
-      updateNavButtons('home');
-
-      backBtn.classList.remove('hidden');
-      screenTitle.innerText = sub.name;
-      screenSubtitle.innerText = `${sub.code} • المحاضرات والماتيريال واللابات`;
-      navIndicator.innerHTML = `
-        <span class="cursor-pointer hover:underline text-slate-400" onclick="renderSemesters()">الترمات</span>
-        <i data-lucide="chevron-left" class="w-3 h-3 text-slate-500 inline"></i>
-        <span class="cursor-pointer hover:underline text-slate-400" onclick="selectSemester(${currentState.selectedSemester.id})">${currentState.selectedSemester.name}</span>
-        <i data-lucide="chevron-left" class="w-3 h-3 text-slate-500 inline"></i>
-        <span class="text-brand-accent font-bold">${sub.code}</span>
-      `;
-      stepCounter.innerText = `${sub.lectures.length} محاضرات`;
-
-      let html = `
-        <div class="screen-fade space-y-4">
-          <div class="mb-4 bg-brand-teal/15 border border-brand-teal/30 p-3.5 rounded-2xl flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-brand-teal/30 flex items-center justify-center text-brand-accent shrink-0">
-              <i data-lucide="file-text" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <p class="text-xs font-bold text-white">الماتيريال الشامل: PDF + لابات المشرحة</p>
-              <p class="text-[11px] text-slate-400 mt-0.5">يمكنك تحميل ملف المحاضرة مباشرة ودخول التطبيق المعملي</p>
-            </div>
-          </div>
-
-          <div class="space-y-4">
-      `;
-
-      sub.lectures.forEach((lec, idx) => {
-        html += `
-          <div class="bg-[#0c2230] border border-white/10 rounded-2xl overflow-hidden shadow-lg hover:border-brand-teal/50 transition">
+            const student = studentsData.find(s => s.id === id);
             
-            <!-- عنوان المحاضرة النظرية -->
-            <div class="p-4 border-b border-white/5 flex items-start gap-3 bg-gradient-to-l from-white/[0.02] to-transparent">
-              <div class="w-10 h-10 rounded-xl bg-brand-teal/20 text-brand-accent flex items-center justify-center font-black text-sm shrink-0 border border-brand-teal/30">
-                0${idx + 1}
-              </div>
-              <div class="flex-1">
-                <span class="text-[10px] font-bold text-brand-accent uppercase tracking-wider bg-brand-teal/15 px-2 py-0.5 rounded">محاضرة نظرية</span>
-                <h4 class="text-sm font-bold text-white mt-1.5 leading-snug">${lec.title}</h4>
-              </div>
-            </div>
+            document.getElementById('display-student-name').innerText = student.name;
+            document.getElementById('slide-title').innerHTML = `<i class="fa-solid fa-file-medical"></i> ${student.slide.title}`;
+            document.getElementById('slide-text').innerText = student.slide.body;
 
-            <!-- مكان وخانة الـ PDF المخصصة لكل محاضرة -->
-            <div class="px-4 py-2.5 bg-black/20 border-b border-white/5 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <div class="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/30">
-                  <i data-lucide="file" class="w-3.5 h-3.5"></i>
-                </div>
-                <div>
-                  <p class="text-[11px] font-semibold text-slate-200">${lec.pdfName}</p>
-                  <span class="text-[9px] text-slate-400 font-mono">${lec.pdfSize} • ملخص وسلايدات</span>
-                </div>
-              </div>
-              <button onclick="downloadPdf('${lec.pdfName}')" class="text-xs bg-white/5 hover:bg-white/10 active:scale-95 text-brand-accent border border-brand-accent/30 font-bold px-3 py-1 rounded-xl shadow flex items-center gap-1.5 transition">
-                <span>تحميل PDF</span>
-                <i data-lucide="download" class="w-3 h-3"></i>
-              </button>
-            </div>
+            const imgContainer = document.getElementById('slide-image-container');
+            const imgElement = document.getElementById('slide-image');
 
-            <!-- اللاب العملي والمشرحة التابعة لها -->
-            <div class="p-3 px-4 bg-black/40 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <div>
-                  <p class="text-[11px] font-bold text-slate-200">${lec.labTitle}</p>
-                  <p class="text-[9px] text-slate-400">تطبيق معملي سريري / مشرحة</p>
-                </div>
-              </div>
-              <button onclick="openLabModal('${lec.labTitle}')" class="text-xs bg-gradient-to-r from-brand-teal to-[#14b8a6] hover:brightness-110 active:scale-95 text-white font-bold px-3 py-1.5 rounded-xl shadow flex items-center gap-1.5 transition">
-                <span>فتح اللاب</span>
-                <i data-lucide="flask-conical" class="w-3.5 h-3.5"></i>
-              </button>
-            </div>
-
-          </div>
-        `;
-      });
-
-      html += `</div></div>`;
-      container.innerHTML = html;
-      lucide.createIcons();
-    }
-
-    // 4. شاشة الإشعارات
-    function renderNotifications() {
-      currentState.view = 'notifications';
-      updateNavButtons('notif');
-
-      backBtn.classList.remove('hidden');
-      screenTitle.innerText = "مركز الإشعارات";
-      screenSubtitle.innerText = "تنبيهات كلية الطب البشري";
-      navIndicator.innerHTML = `<span class="text-brand-accent font-bold">الإشعارات</span>`;
-      
-      const unreadCount = notificationsData.filter(n => n.unread).length;
-      stepCounter.innerText = `${unreadCount} جديد`;
-
-      let html = `
-        <div class="screen-fade space-y-4">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex gap-2">
-              <button onclick="renderNotifications()" class="text-xs px-3 py-1 rounded-full bg-brand-teal text-white font-bold">الكل</button>
-              <button onclick="markAllNotifsAsRead()" class="text-xs px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 transition">تحديد الكل كمقروء</button>
-            </div>
-            <button onclick="clearNotifications()" class="text-[11px] text-rose-400 hover:underline">مسح الكل</button>
-          </div>
-      `;
-
-      if (notificationsData.length === 0) {
-        html += `
-          <div class="py-16 flex flex-col items-center justify-center text-center">
-            <div class="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 mb-3">
-              <i data-lucide="bell-off" class="w-8 h-8"></i>
-            </div>
-            <h4 class="text-sm font-bold text-slate-300">صندوق الإشعارات فارغ تماماً</h4>
-            <p class="text-xs text-slate-500 mt-1 max-w-[200px]">لا توجد تنبيهات جديدة أو اختبارات مسجلة في الوقت الحالي</p>
-          </div>
-        `;
-      } else {
-        html += `<div class="space-y-3">`;
-        notificationsData.forEach((notif) => {
-          html += `
-            <div onclick="toggleNotifRead(${notif.id})" class="cursor-pointer p-4 rounded-2xl border transition duration-200 ${notif.unread ? 'bg-[#0f2c3e] border-brand-teal/60 shadow-md' : 'bg-[#0c2230]/70 border-white/5 opacity-80'} flex items-start gap-3">
-              <div class="w-9 h-9 rounded-xl ${notif.unread ? 'bg-brand-teal text-white' : 'bg-white/5 text-slate-400'} flex items-center justify-center shrink-0">
-                <i data-lucide="${notif.type === 'quiz' ? 'alert-circle' : 'file-text'}" class="w-4 h-4"></i>
-              </div>
-              <div class="flex-1">
-                <div class="flex items-center justify-between">
-                  <h4 class="text-xs font-bold ${notif.unread ? 'text-white' : 'text-slate-300'}">${notif.title}</h4>
-                  <span class="text-[10px] text-slate-400 font-mono">${notif.time}</span>
-                </div>
-                <p class="text-[11px] text-slate-300 mt-1 leading-relaxed">${notif.desc}</p>
-              </div>
-            </div>
-          `;
-        });
-        html += `</div>`;
-      }
-
-      html += `</div>`;
-      container.innerHTML = html;
-      lucide.createIcons();
-    }
-
-    function toggleNotifRead(id) {
-      const item = notificationsData.find(n => n.id === id);
-      if (item) {
-        item.unread = !item.unread;
-        renderNotifications();
-      }
-    }
-
-    function markAllNotifsAsRead() {
-      notificationsData.forEach(n => n.unread = false);
-      headerBadge.classList.add('hidden');
-      renderNotifications();
-    }
-
-    function clearNotifications() {
-      notificationsData = [];
-      headerBadge.classList.add('hidden');
-      renderNotifications();
-    }
-
-    // 5. شاشة حسابي (مطابقة لنفس تفاصيل وبنية الصورة تماماً)
-    function renderProfile() {
-      currentState.view = 'profile';
-      updateNavButtons('profile');
-
-      backBtn.classList.remove('hidden');
-      screenTitle.innerText = "جامعة الجلالة - حسابي";
-      screenSubtitle.innerText = "بيانات الطالب والتواصل مع إدارة الكلية";
-      navIndicator.innerHTML = `<span class="text-brand-accent font-bold">الملف الشخصي</span>`;
-      stepCounter.innerText = "طالب منتظم";
-
-      let html = `
-        <div class="screen-fade space-y-4">
-          <div class="rounded-3xl bg-[#0c2230] border border-white/10 p-5 shadow-2xl relative overflow-hidden">
-            <div class="absolute -left-12 -top-12 w-40 h-40 bg-brand-teal/15 rounded-full blur-2xl pointer-events-none"></div>
-
-            <div class="flex items-start justify-between">
-              <div>
-                <h2 class="text-lg font-extrabold text-white leading-tight">عندك استفسار أو<br>طلب أكاديمي خاص؟</h2>
-                <h3 class="text-base font-bold text-brand-accent mt-1">تواصل مع إدارة كلية الطب.</h3>
-              </div>
-              <div class="relative shrink-0 mr-2">
-                <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-rose-500 to-amber-400 p-1 flex items-center justify-center shadow-lg">
-                  <div class="w-full h-full rounded-full bg-[#0c2230] flex items-center justify-center overflow-hidden">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=GalalaMedicine" alt="Avatar" class="w-12 h-12 object-contain" />
-                  </div>
-                </div>
-                <span class="absolute bottom-0 left-0 w-4 h-4 rounded-full bg-emerald-500 border-2 border-[#0c2230]"></span>
-              </div>
-            </div>
-
-            <p class="text-xs text-slate-300 mt-3 leading-relaxed">
-              سعداء بخدمتك دائماً، أرسل لنا ملاحظاتك أو استفسارك بخصوص موديولات الطب واللابات وسنرد عليك فوراً.
-            </p>
-            <p class="text-[11px] text-slate-500 mt-1 font-mono tracking-tight">
-              Have a question or request? Contact Galala Medicine Dean Office.
-            </p>
-
-            <div class="mt-5 p-4 rounded-2xl bg-black/40 border border-white/5 space-y-3">
-              <div class="flex items-center justify-between border-b border-white/5 pb-2.5">
-                <div class="flex items-center gap-2">
-                  <i data-lucide="phone-call" class="w-4 h-4 text-emerald-400"></i>
-                  <span class="text-xs font-bold text-white tracking-wide" dir="ltr">+20 101 480 6830</span>
-                </div>
-                <span class="text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-md">تواصل مباشر</span>
-              </div>
-
-              <div class="flex items-center gap-2 text-xs text-slate-300">
-                <i data-lucide="mail" class="w-4 h-4 text-brand-lightTeal"></i>
-                <span class="font-mono text-[11px] text-slate-200">medicine@gu.edu.eg</span>
-              </div>
-
-              <div class="pt-2 flex items-center gap-3">
-                <div class="w-12 h-12 rounded-xl bg-white p-1 shrink-0 flex items-center justify-center">
-                  <i data-lucide="qr-code" class="w-10 h-10 text-slate-900"></i>
-                </div>
-                <div>
-                  <p class="text-[11px] font-bold text-white">الباركود الجامعي للطالب</p>
-                  <p class="text-[10px] text-slate-400">جامعة الجلالة - كلية الطب البشري</p>
-                </div>
-              </div>
-            </div>
-
-            <button onclick="alert('جاري الانتقال لبوابة شؤون الطلاب والامتحانات بجامعة الجلالة')" class="mt-4 w-full py-3 px-4 rounded-2xl bg-[#143242] hover:bg-[#1a4055] border border-white/10 active:scale-[0.98] transition flex items-center justify-center gap-2 text-sm font-bold text-white shadow-lg">
-              <span>🔒</span>
-              <span>لوحة تحكم شؤون الطلاب والكنترول</span>
-            </button>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-[#0c2230]/70 border border-white/5 space-y-2">
-            <h4 class="text-xs font-bold text-slate-300 mb-2">بيانات القيد الجامعي</h4>
-            <div class="flex justify-between text-xs py-1 border-b border-white/5">
-              <span class="text-slate-400">الجامعة:</span>
-              <span class="text-slate-200 font-semibold">جامعة الجلالة (Galala University)</span>
-            </div>
-            <div class="flex justify-between text-xs py-1 border-b border-white/5">
-              <span class="text-slate-400">الكلية:</span>
-              <span class="text-slate-200 font-semibold">كلية الطب البشري</span>
-            </div>
-            <div class="flex justify-between text-xs py-1">
-              <span class="text-slate-400">المعدل التراكمي (GPA):</span>
-              <span class="text-brand-accent font-bold font-mono">3.92 / 4.00</span>
-            </div>
-          </div>
-        </div>
-      `;
-
-      container.innerHTML = html;
-      lucide.createIcons();
-    }
-
-    // زر الرجوع الذكي بين الشاشات
-    function handleBackAction() {
-      if (currentState.view === 'profile' || currentState.view === 'notifications') {
-        if (currentState.selectedSubject) {
-          selectSubject(currentState.selectedSubject.id);
-        } else if (currentState.selectedSemester) {
-          selectSemester(currentState.selectedSemester.id);
-        } else if (currentState.selectedFaculty) {
-          renderSemesters();
-        } else {
-          renderFaculties();
+            if (student.imageUrl && student.imageUrl.trim() !== "") {
+                imgElement.src = student.imageUrl;
+                imgContainer.style.display = 'flex'; 
+            } else {
+                imgContainer.style.display = 'none'; 
+            }
         }
-      } else if (currentState.view === 'lectures') {
-        selectSemester(currentState.selectedSemester.id);
-      } else if (currentState.view === 'subjects') {
-        renderSemesters();
-      } else if (currentState.view === 'semesters') {
-        renderFaculties();
-      }
-    }
 
-    function goToHomeFlow() {
-      if (currentState.selectedFaculty) {
-        renderSemesters();
-      } else {
-        renderFaculties();
-      }
-    }
+        // --- اللعبة (Quiz) ---
+        function openQuiz() {
+            document.getElementById('quiz-overlay').classList.add('active');
+            currentQuestionIndex = 0;
+            team1Score = 0;
+            team2Score = 0;
+            currentTeam = 1;
+            updateScoreboard();
+            loadQuestion();
+        }
 
-    function downloadPdf(pdfName) {
-      alert(`جاري تحميل ملف الماتيريال: ${pdfName}`);
-    }
+        function closeQuiz() {
+            document.getElementById('quiz-overlay').classList.remove('active');
+        }
 
-    function openLabModal(labTitle) {
-      alert(`جاري فتح بيئة وتفاصيل اللاب: ${labTitle}`);
-    }
+        function updateScoreboard() {
+            document.getElementById('team1-score').innerText = team1Score;
+            document.getElementById('team2-score').innerText = team2Score;
+            document.getElementById('team1-card').classList.remove('active-team');
+            document.getElementById('team2-card').classList.remove('active-team');
+            if (currentTeam === 1) document.getElementById('team1-card').classList.add('active-team');
+            else document.getElementById('team2-card').classList.add('active-team');
+        }
 
-    // بدء التطبيق باختيار الكلية أولاً
-    renderFaculties();
-  </script>
+        function loadQuestion() {
+            canClick = true;
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('feedback-text').className = 'feedback-text';
+            document.getElementById('feedback-text').innerText = '';
+            
+            if (currentQuestionIndex >= quizData.length) {
+                document.getElementById('question-text').innerHTML = "🎉 Game Over! 🎉<br><span style='font-size:24px; color:var(--text-muted)'>Click 'Exit' to return.</span>";
+                document.getElementById('options-container').innerHTML = '';
+                document.getElementById('team1-card').classList.remove('active-team');
+                document.getElementById('team2-card').classList.remove('active-team');
+                return;
+            }
+
+            const q = quizData[currentQuestionIndex];
+            document.getElementById('question-text').innerText = q.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `
+                    <div class="option-content">
+                        <div class="letter">${letters[index]}</div> 
+                        <span>${opt}</span>
+                    </div>
+                    <i class="fa-solid fa-circle-check status-icon check-icon"></i>
+                    <i class="fa-solid fa-circle-xmark status-icon cross-icon"></i>
+                `;
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex, btn) {
+            if (!canClick) return;
+            canClick = false;
+            const q = quizData[currentQuestionIndex];
+            const allBtns = document.querySelectorAll('.option-btn');
+            const feedback = document.getElementById('feedback-text');
+            allBtns.forEach(b => b.classList.add('disabled'));
+
+            if (selectedIndex === q.correctAnswer) {
+                btn.classList.add('correct');
+                playSound('correct');
+                feedback.innerText = "Correct! +1 Point";
+                feedback.style.color = "var(--success)";
+                feedback.classList.add('show');
+                if (currentTeam === 1) team1Score += 1;
+                else team2Score += 1;
+            } else {
+                btn.classList.add('wrong');
+                playSound('wrong');
+                feedback.innerText = "Oops! Wrong Answer";
+                feedback.style.color = "var(--danger)";
+                feedback.classList.add('show');
+                allBtns[q.correctAnswer].classList.add('correct');
+            }
+
+            updateScoreboard();
+            document.getElementById('next-btn').style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            currentTeam = currentTeam === 1 ? 2 : 1;
+            loadQuestion();
+        }
+
+        function playSound(type) {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioContext();
+                if (type === 'correct') {
+                    const notes = [523.25, 659.25, 783.99, 1046.50]; 
+                    notes.forEach((freq, index) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'triangle'; 
+                        osc.frequency.value = freq;
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        const startTime = ctx.currentTime + (index * 0.1);
+                        gain.gain.setValueAtTime(0, startTime);
+                        gain.gain.linearRampToValueAtTime(0.3, startTime + 0.05);
+                        gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.4);
+                        osc.start(startTime);
+                        osc.stop(startTime + 0.5);
+                    });
+                } else {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(150, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.15);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.3);
+                }
+            } catch (e) { }
+        }
+
+        // --- الإعدادات ---
+        function openSettings() {
+            renderSettingsList();
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+        function closeSettings() { document.getElementById('settings-modal').style.display = 'none'; }
+
+        function renderSettingsList() {
+            const list = document.getElementById('settings-list');
+            list.innerHTML = '';
+            studentsData.forEach((student, index) => {
+                const item = document.createElement('div');
+                item.style = "display: flex; justify-content: space-between; padding: 10px; background: var(--gray-bg); border-radius: 8px; margin-bottom: 8px;";
+                item.innerHTML = `
+                    <span style="font-weight: 600;">${index + 1}. ${student.name}</span>
+                    <div style="display: flex; gap: 5px;">
+                        <button onclick="moveStudent(${index}, 'up')" ${index === 0 ? 'disabled' : ''} style="border:none; background:none; color:var(--blue-primary); cursor:pointer;"><i class="fa-solid fa-arrow-up"></i></button>
+                        <button onclick="moveStudent(${index}, 'down')" ${index === studentsData.length - 1 ? 'disabled' : ''} style="border:none; background:none; color:var(--blue-primary); cursor:pointer;"><i class="fa-solid fa-arrow-down"></i></button>
+                        <button onclick="deleteStudent(${student.id})" style="border:none; background:none; color:var(--danger); cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function moveStudent(index, direction) {
+            if (direction === 'up' && index > 0) {
+                [studentsData[index - 1], studentsData[index]] = [studentsData[index], studentsData[index - 1]];
+            } else if (direction === 'down' && index < studentsData.length - 1) {
+                [studentsData[index + 1], studentsData[index]] = [studentsData[index], studentsData[index + 1]];
+            }
+            renderSettingsList(); renderNav(); 
+        }
+
+        function deleteStudent(id) {
+            if (confirm("Are you sure you want to remove this student?")) {
+                studentsData = studentsData.filter(s => s.id !== id);
+                renderSettingsList(); renderNav(); 
+            }
+        }
+
+        window.onload = () => { renderNav(); };
+    </script>
 </body>
 </html>
