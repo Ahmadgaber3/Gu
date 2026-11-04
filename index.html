@@ -81,7 +81,7 @@
         .fullscreen-btn { color: var(--blue-primary); border-color: var(--blue-primary); background: var(--blue-light); }
         .fullscreen-btn:hover { background: var(--blue-primary); color: var(--white); }
 
-        /* شريط أزرار الطلاب - تكبير الخط */
+        /* شريط أزرار الطلاب */
         .students-nav-container {
             width: 100%; max-width: 1200px; background: transparent;
             padding: 15px 20px; display: flex; overflow-x: auto; gap: 15px;
@@ -90,14 +90,10 @@
         .students-nav-container::-webkit-scrollbar { display: none; }
 
         .student-btn {
-            padding: 10px 24px; /* زيادة المساحة */
-            border-radius: 50px; border: 1px solid var(--gray-border);
-            background: var(--white); color: var(--text-muted); 
-            font-weight: 700; /* خط أعرض */
-            font-size: 18px; /* تكبير الخط */
-            cursor: pointer; transition: 0.2s;
-            display: flex; align-items: center; gap: 10px; white-space: nowrap;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            padding: 10px 24px; border-radius: 50px; border: 1px solid var(--gray-border);
+            background: var(--white); color: var(--text-muted); font-weight: 700; font-size: 18px;
+            cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 10px; 
+            white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
         .student-btn:hover { background: var(--blue-light); border-color: var(--blue-primary); color: var(--blue-primary); transform: translateY(-2px);}
         .student-btn.active { background: var(--blue-primary); color: var(--white); border-color: var(--blue-primary); box-shadow: 0 4px 15px rgba(30, 96, 210, 0.3); }
@@ -125,17 +121,40 @@
 
         .slide-content { text-align: center; }
         
-        /* تصميم الصورة */
-        .slide-image-container {
+        /* تصميم حاوية الوسائط (صورة أو فيديو) */
+        .slide-media-container {
             margin-bottom: 20px;
             display: flex;
             justify-content: center;
+            align-items: center;
             width: 100%;
             position: relative; 
             cursor: zoom-in; 
         }
+
+        /* تصميم الصور */
+        .slide-media-container img {
+            width: 100%; 
+            max-height: 65vh; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            object-fit: contain; 
+            background-color: var(--gray-bg); 
+        }
         
-        .slide-image-container::after {
+        /* تصميم الفيديو */
+        .slide-media-container video {
+            width: 100%;
+            max-height: 65vh;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            outline: none;
+            background-color: #000;
+            cursor: default; /* عشان نلغي علامة التكبير للفيديو */
+        }
+
+        /* علامة التكبير للصور بس */
+        .slide-media-container img::after {
             content: '\f00e'; 
             font-family: 'Font Awesome 6 Free';
             font-weight: 900;
@@ -153,17 +172,6 @@
             font-size: 18px;
             pointer-events: none; 
             transition: 0.3s;
-        }
-
-        .slide-image-container:hover::after { background: var(--blue-primary); transform: scale(1.1); }
-
-        .slide-image-container img {
-            width: 100%; 
-            max-height: 65vh; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            object-fit: contain; 
-            background-color: var(--gray-bg); 
         }
 
         .student-main-name {
@@ -214,7 +222,6 @@
 
         .scoreboard { display: flex; justify-content: center; gap: 50px; margin-bottom: 25px; flex-shrink: 0; }
         
-        /* تكبير مربعات النتيجة وأسماء الجروبات */
         .team-score {
             width: 180px; height: 180px; background: var(--white); border-radius: 20px;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -239,10 +246,8 @@
         }
         .team-score.active-team .turn-badge { opacity: 1; transform: translateY(0); }
         
-        /* تكبير اسم الجروب */
         .team-score h3 { font-size: 26px; margin-bottom: 5px; color: var(--text-muted); font-weight: 700; transition: 0.3s; }
         .team-score.active-team h3 { color: var(--blue-primary); font-weight: 800; }
-        
         .team-score .score { font-size: 60px; font-weight: 800; color: var(--blue-dark); line-height: 1; }
         .team-score.active-team .score { color: var(--blue-primary); }
 
@@ -299,12 +304,10 @@
             .action-icon-btn { padding: 0 12px; }
             .dashboard-card { padding: 15px; }
             .student-main-name { font-size: 30px; } 
-            .slide-image-container img { max-height: 55vh; }
-            .slide-image-container::after { top: 10px; right: 10px; width: 30px; height: 30px; font-size: 14px;}
+            .slide-media-container img, .slide-media-container video { max-height: 55vh; }
             .quiz-overlay { padding: 15px; }
             .quiz-header h2 { font-size: 20px; }
             
-            /* تصغيرات الموبايل للعبة */
             .scoreboard { gap: 15px; }
             .team-score { width: 130px; height: 130px; }
             .team-score .score { font-size: 40px; }
@@ -340,7 +343,6 @@
         </div>
     </nav>
 
-    <!-- شريط أزرار الطلاب -->
     <div class="students-nav-container" id="students-nav"></div>
 
     <main class="main-content">
@@ -350,12 +352,14 @@
             <p>Group 3 - Second Year Project Presentation</p>
         </div>
 
-        <!-- كارت عرض السلايد -->
         <div class="dashboard-card" id="dashboard-card">
             <div class="slide-content">
-                <div class="slide-image-container" id="slide-image-container" onclick="openFullscreen()">
-                    <img id="slide-image" src="" alt="Student Image">
+                
+                <!-- حاوية الوسائط (تستقبل الصورة أو الفيديو) -->
+                <div class="slide-media-container" id="slide-media-container">
+                    <!-- سيتم حقن الصورة أو الفيديو هنا عبر الجافاسكريبت -->
                 </div>
+
                 <h1 class="student-main-name" id="display-student-name">Student Name</h1>
                 <div class="student-group-tag">Group 3</div>
             </div>
@@ -407,20 +411,21 @@
     </div>
 
     <script>
-        // البيانات
+        // البيانات: تم تغيير الطالب رقم 9 إلى فيديو
         let studentsData = [
-            { id: 1, name: "Sondos Mohamed", imageUrl: "images/1.jpg" },
-            { id: 2, name: "Dina Yasser", imageUrl: "images/2.jpg" },
-            { id: 3, name: "Yasmin Hani", imageUrl: "images/3.jpg" },
-            { id: 4, name: "Maryam Mohamed", imageUrl: "images/4.jpg" },
-            { id: 5, name: "Abdallah Mahmoud", imageUrl: "images/5.jpg" },
-            { id: 6, name: "Shaza Ahmed", imageUrl: "images/6.jpg" },
-            { id: 7, name: "Renad Ashraf", imageUrl: "images/7.jpg" },
-            { id: 8, name: "Yasmin Ashraf", imageUrl: "images/8.jpg" },
-            { id: 9, name: "Rawan Mostafa", imageUrl: "images/9.jpg" }
+            { id: 1, name: "Sondos Mohamed", mediaUrl: "images/1.jpg", type: "image" },
+            { id: 2, name: "Dina Yasser", mediaUrl: "images/2.jpg", type: "image" },
+            { id: 3, name: "Yasmin Hani", mediaUrl: "images/3.jpg", type: "image" },
+            { id: 4, name: "Maryam Mohamed", mediaUrl: "images/4.jpg", type: "image" },
+            { id: 5, name: "Abdallah Mahmoud", mediaUrl: "images/5.jpg", type: "image" },
+            { id: 6, name: "Shaza Ahmed", mediaUrl: "images/6.jpg", type: "image" },
+            { id: 7, name: "Renad Ashraf", mediaUrl: "images/7.jpg", type: "image" },
+            { id: 8, name: "Yasmin Ashraf", mediaUrl: "images/8.jpg", type: "image" },
+            // الطالب رقم 9 بقى فيديو
+            { id: 9, name: "Rawan Mostafa", mediaUrl: "images/9.mp4", type: "video" }
         ];
 
-        // الأسئلة (هتبدلها بالأسئلة بتاعتك)
+        // الأسئلة
         const quizData = [
             { question: "What is the primary goal of Data Analytics?", options: ["Data Entry", "Extracting Insights", "Web Design", "Hardware Repair"], correctAnswer: 1 },
             { question: "Which chart is best for showing trends over time?", options: ["Pie Chart", "Bar Chart", "Line Chart", "Scatter Plot"], correctAnswer: 2 },
@@ -461,6 +466,7 @@
             });
         }
 
+        // دالة عرض السلايد (بتفرق بين الصورة والفيديو)
         function loadStudent(id) {
             document.getElementById('hero-section').style.display = 'none';
             document.getElementById('dashboard-card').style.display = 'block';
@@ -470,22 +476,38 @@
             const student = studentsData.find(s => s.id === id);
             document.getElementById('display-student-name').innerText = student.name;
 
-            const imgContainer = document.getElementById('slide-image-container');
-            const imgElement = document.getElementById('slide-image');
+            const mediaContainer = document.getElementById('slide-media-container');
+            mediaContainer.innerHTML = ''; // تفريغ الحاوية
 
-            if (student.imageUrl && student.imageUrl.trim() !== "") {
-                imgElement.src = student.imageUrl;
-                imgContainer.style.display = 'flex'; 
+            if (student.mediaUrl && student.mediaUrl.trim() !== "") {
+                mediaContainer.style.display = 'flex'; 
+                
+                // لو النوع فيديو
+                if (student.type === 'video') {
+                    mediaContainer.style.cursor = 'default'; // إلغاء شكل التكبير
+                    mediaContainer.innerHTML = `
+                        <video controls autoplay>
+                            <source src="${student.mediaUrl}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    `;
+                } 
+                // لو النوع صورة
+                else {
+                    mediaContainer.style.cursor = 'zoom-in';
+                    mediaContainer.onclick = openFullscreen; // تفعيل التكبير
+                    mediaContainer.innerHTML = `<img id="slide-image" src="${student.mediaUrl}" alt="${student.name}">`;
+                }
             } else {
-                imgContainer.style.display = 'none'; 
+                mediaContainer.style.display = 'none'; 
             }
         }
 
         // دوال الصورة الكاملة
         function openFullscreen() {
-            const mainImageSrc = document.getElementById('slide-image').src;
-            if (mainImageSrc) {
-                document.getElementById('fullscreen-img').src = mainImageSrc;
+            const mainImage = document.getElementById('slide-image');
+            if (mainImage) {
+                document.getElementById('fullscreen-img').src = mainImage.src;
                 document.getElementById('fullscreen-overlay').classList.add('active');
             }
         }
@@ -508,21 +530,13 @@
             document.getElementById('quiz-overlay').classList.remove('active');
         }
 
-        // دالة تحديث لوحة النتيجة (تحدد مين اللي عليه الدور)
         function updateScoreboard() {
             document.getElementById('team1-score').innerText = team1Score;
             document.getElementById('team2-score').innerText = team2Score;
-            
-            // إزالة التحديد من الكل
             document.getElementById('team1-card').classList.remove('active-team');
             document.getElementById('team2-card').classList.remove('active-team');
-            
-            // تحديد الفريق اللي عليه الدور
-            if (currentTeam === 1) {
-                document.getElementById('team1-card').classList.add('active-team');
-            } else {
-                document.getElementById('team2-card').classList.add('active-team');
-            }
+            if (currentTeam === 1) document.getElementById('team1-card').classList.add('active-team');
+            else document.getElementById('team2-card').classList.add('active-team');
         }
 
         function loadQuestion() {
@@ -573,7 +587,7 @@
                 btn.classList.add('correct');
                 playSound('correct');
                 
-                // إطلاق الزينة (Confetti) عند الإجابة الصحيحة
+                // إطلاق الزينة القوية
                 fireConfetti();
 
                 feedback.innerText = "Correct! +1 Point";
@@ -594,29 +608,31 @@
             document.getElementById('next-btn').style.display = 'inline-block';
         }
 
-        // دالة السؤال التالي (تتنقل للفريق التاني بدقة)
         function nextQuestion() {
             currentQuestionIndex++;
-            // تبديل الدور
             currentTeam = currentTeam === 1 ? 2 : 1;
-            
-            // تحديث لوحة النتائج عشان الزون الأزرق يتنقل فوراً
             updateScoreboard(); 
-            
-            // تحميل السؤال الجديد
             loadQuestion();
         }
 
-        // دالة الزينة (Confetti)
+        // ==========================================
+        // دالة الزينة الجديدة (انفجار قوي + مطر ألوان)
+        // ==========================================
         function fireConfetti() {
-            var duration = 1.5 * 1000;
+            var duration = 3 * 1000; // 3 ثواني
             var animationEnd = Date.now() + duration;
             var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
 
-            function randomInRange(min, max) {
-                return Math.random() * (max - min) + min;
-            }
+            // انفجار ضخم في النص
+            confetti({
+                particleCount: 150,
+                spread: 100,
+                origin: { y: 0.6 },
+                zIndex: 10000,
+                colors: ['#1e60d2', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6']
+            });
 
+            // مطر ورق من على اليمين والشمال
             var interval = setInterval(function() {
                 var timeLeft = animationEnd - Date.now();
 
@@ -625,8 +641,10 @@
                 }
 
                 var particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+                // من الشمال
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.1, y: Math.random() - 0.2 } }));
+                // من اليمين
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.9, y: Math.random() - 0.2 } }));
             }, 250);
         }
 
