@@ -123,55 +123,20 @@
         
         /* تصميم حاوية الوسائط (صورة أو فيديو) */
         .slide-media-container {
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            position: relative; 
-            cursor: zoom-in; 
+            margin-bottom: 20px; display: flex; justify-content: center; align-items: center;
+            width: 100%; position: relative; cursor: zoom-in; 
         }
 
-        /* تصميم الصور */
         .slide-media-container img {
-            width: 100%; 
-            max-height: 65vh; 
-            border-radius: 16px; 
+            width: 100%; max-height: 65vh; border-radius: 16px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            object-fit: contain; 
-            background-color: var(--gray-bg); 
+            object-fit: contain; background-color: var(--gray-bg); 
         }
         
-        /* تصميم الفيديو */
         .slide-media-container video {
-            width: 100%;
-            max-height: 65vh;
-            border-radius: 16px;
+            width: 100%; max-height: 65vh; border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            outline: none;
-            background-color: #000;
-            cursor: default; /* عشان نلغي علامة التكبير للفيديو */
-        }
-
-        /* علامة التكبير للصور بس */
-        .slide-media-container img::after {
-            content: '\f00e'; 
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            pointer-events: none; 
-            transition: 0.3s;
+            outline: none; background-color: #000; cursor: default; 
         }
 
         .student-main-name {
@@ -181,22 +146,19 @@
 
         .student-group-tag {
             display: inline-block; background: var(--blue-light); color: var(--blue-primary);
-            padding: 8px 25px; border-radius: 30px; font-size: 18px; font-weight: 800;
-            letter-spacing: 1px;
+            padding: 8px 25px; border-radius: 30px; font-size: 18px; font-weight: 800; letter-spacing: 1px;
         }
 
         /* شاشة عرض الصورة كاملة */
         .fullscreen-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.95); 
-            display: none; justify-content: center; align-items: center;
+            background: rgba(0, 0, 0, 0.95); display: none; justify-content: center; align-items: center;
             z-index: 99999; cursor: zoom-out;
         }
         .fullscreen-overlay.active { display: flex; animation: fadeIn 0.3s ease-out; }
         .fullscreen-overlay img { max-width: 95%; max-height: 95%; object-fit: contain; border-radius: 8px; }
         .close-fullscreen {
-            position: absolute; top: 20px; right: 30px; color: var(--white); font-size: 40px; font-weight: bold;
-            cursor: pointer; transition: 0.3s;
+            position: absolute; top: 20px; right: 30px; color: var(--white); font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s;
         }
         .close-fullscreen:hover { color: var(--danger); transform: scale(1.1); }
 
@@ -256,35 +218,46 @@
             box-shadow: var(--shadow); border: 1px solid var(--gray-border);
             flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: center;
         }
-        .question-text { font-size: 32px; font-weight: 700; color: var(--blue-dark); margin-bottom: 30px; direction: ltr; line-height: 1.4; }
         
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        /* تصغير حجم خط السؤال شوية عشان الأسئلة الطويلة تبان كويسة */
+        .question-text { font-size: 26px; font-weight: 700; color: var(--blue-dark); margin-bottom: 25px; direction: ltr; line-height: 1.4; }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         .option-btn {
             background: var(--gray-bg); border: 2px solid var(--gray-border);
-            padding: 20px; border-radius: 16px; font-size: 20px; font-weight: 600;
+            padding: 15px 20px; border-radius: 16px; font-size: 18px; font-weight: 600;
             color: var(--blue-dark); cursor: pointer; transition: 0.2s;
             display: flex; align-items: center; justify-content: space-between; direction: ltr; 
+            text-align: left;
         }
         .option-content { display: flex; align-items: center; gap: 15px; }
         .option-btn .letter {
-            background: var(--white); width: 40px; height: 40px; border-radius: 50%;
+            background: var(--white); width: 35px; height: 35px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            font-size: 18px; color: var(--text-muted); border: 1px solid var(--gray-border); flex-shrink: 0;
+            font-size: 16px; color: var(--text-muted); border: 1px solid var(--gray-border); flex-shrink: 0;
         }
-        .status-icon { display: none; font-size: 28px; }
-        .option-btn:hover:not(.disabled) { border-color: var(--blue-primary); background: var(--blue-light); transform: translateY(-3px); }
-        .option-btn:hover:not(.disabled) .letter { background: var(--blue-primary); color: var(--white); }
-        .option-btn.correct { background: #ecfdf5; border-color: var(--success); color: var(--success); }
+        .status-icon { display: none; font-size: 24px; }
+        
+        /* شكل الزرار العادي */
+        .option-btn:hover:not(.correct):not(.wrong) { border-color: var(--blue-primary); background: var(--blue-light); transform: translateY(-3px); }
+        .option-btn:hover:not(.correct):not(.wrong) .letter { background: var(--blue-primary); color: var(--white); }
+        
+        /* الإجابة الصحيحة */
+        .option-btn.correct { background: #ecfdf5; border-color: var(--success); color: var(--success); pointer-events: none; }
         .option-btn.correct .letter { background: var(--success); color: var(--white); }
         .option-btn.correct .check-icon { display: block; color: var(--success); }
-        .option-btn.correct .cross-icon { display: none !important; }
-        .option-btn.wrong { background: #fef2f2; border-color: var(--danger); color: var(--danger); }
+        
+        /* الإجابة الغلط */
+        .option-btn.wrong { background: #fef2f2; border-color: var(--danger); color: var(--danger); pointer-events: none; animation: shake 0.4s ease; }
         .option-btn.wrong .letter { background: var(--danger); color: var(--white); }
         .option-btn.wrong .cross-icon { display: block; color: var(--danger); }
-        .option-btn.wrong .check-icon { display: none !important; }
-        .option-btn.disabled { cursor: not-allowed; }
+        
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
-        .feedback-text { font-size: 22px; font-weight: 700; height: 30px; margin-bottom: 15px; opacity: 0; transition: 0.3s; }
+        /* تعطيل باقي الأزرار لما نجيب صح */
+        .option-btn.disabled { pointer-events: none; opacity: 0.7; }
+
+        .feedback-text { font-size: 20px; font-weight: 700; height: 30px; margin-bottom: 15px; opacity: 0; transition: 0.3s; }
         .feedback-text.show { opacity: 1; animation: pop 0.4s ease; }
         @keyframes pop { 0% { transform: scale(0.8); } 100% { transform: scale(1); } }
 
@@ -305,18 +278,18 @@
             .dashboard-card { padding: 15px; }
             .student-main-name { font-size: 30px; } 
             .slide-media-container img, .slide-media-container video { max-height: 55vh; }
-            .quiz-overlay { padding: 15px; }
+            .quiz-overlay { padding: 15px; overflow-y: auto; } /* السماح بالسكرول لو الشاشة صغيرة */
             .quiz-header h2 { font-size: 20px; }
             
-            .scoreboard { gap: 15px; }
-            .team-score { width: 130px; height: 130px; }
-            .team-score .score { font-size: 40px; }
-            .team-score h3 { font-size: 18px; }
+            .scoreboard { gap: 15px; margin-bottom: 15px;}
+            .team-score { width: 110px; height: 110px; }
+            .team-score .score { font-size: 32px; }
+            .team-score h3 { font-size: 16px; }
             
-            .question-text { font-size: 20px; margin-bottom: 15px; }
+            .question-text { font-size: 18px; margin-bottom: 15px; }
             .options-grid { grid-template-columns: 1fr; gap: 10px; }
-            .option-btn { padding: 12px; font-size: 16px; }
-            .option-btn .letter { width: 30px; height: 30px; font-size: 14px; }
+            .option-btn { padding: 12px; font-size: 15px; }
+            .option-btn .letter { width: 28px; height: 28px; font-size: 12px; }
             .next-btn { padding: 12px 30px; font-size: 16px; }
             .hero-section h1 { font-size: 32px; }
             .student-btn { font-size: 15px; padding: 8px 16px; }
@@ -354,12 +327,9 @@
 
         <div class="dashboard-card" id="dashboard-card">
             <div class="slide-content">
-                
-                <!-- حاوية الوسائط (تستقبل الصورة أو الفيديو) -->
                 <div class="slide-media-container" id="slide-media-container">
                     <!-- سيتم حقن الصورة أو الفيديو هنا عبر الجافاسكريبت -->
                 </div>
-
                 <h1 class="student-main-name" id="display-student-name">Student Name</h1>
                 <div class="student-group-tag">Group 3</div>
             </div>
@@ -421,22 +391,48 @@
             { id: 6, name: "Shaza Ahmed", mediaUrl: "images/6.jpg", type: "image" },
             { id: 7, name: "Renad Ashraf", mediaUrl: "images/7.jpg", type: "image" },
             { id: 8, name: "Yasmin Ashraf", mediaUrl: "images/8.jpg", type: "image" },
-            // الطالب رقم 9 بقى فيديو
             { id: 9, name: "Rawan Mostafa", mediaUrl: "images/9.mp4", type: "video" }
         ];
 
-        // الأسئلة
+        // الأسئلة الجديدة (من الصور)
         const quizData = [
-            { question: "What is the primary goal of Data Analytics?", options: ["Data Entry", "Extracting Insights", "Web Design", "Hardware Repair"], correctAnswer: 1 },
-            { question: "Which chart is best for showing trends over time?", options: ["Pie Chart", "Bar Chart", "Line Chart", "Scatter Plot"], correctAnswer: 2 },
-            { question: "What does 'Data Cleaning' mean?", options: ["Deleting data", "Fixing inaccurate records", "Organizing files", "Printing reports"], correctAnswer: 1 }
+            { 
+                question: "Q1. In which type of flame are the fuel and the oxidant mixed in the flame itself?", 
+                options: ["Premix (laminar) flame", "Un-premix (turbulent) flame", "Flame with a mixing chamber", "Laminar flame with a chopper"], 
+                correctAnswer: 1 
+            },
+            { 
+                question: "Q2. According to the principle of AAS, what happens when atoms are exposed to light of a certain wavelength?", 
+                options: ["Electrons emit light and fall to lower energy levels", "Atoms are converted into molecules", "Electrons absorb light and jump from low energy levels to high ones", "The atoms are removed from the flame"], 
+                correctAnswer: 2 
+            },
+            { 
+                question: "Q3. What is the function of the monochromator in AAS?", 
+                options: ["Select a given emission line and isolate it from other lines", "Convert the sample into free atoms", "Eliminate the effect of flame emission", "Display the absorption reading"], 
+                correctAnswer: 0 
+            },
+            { 
+                question: "Q4. Which statement about the sensitivity of AAS is correct?", 
+                options: ["AAS is less sensitive than flame emission", "AAS and flame emission have the same sensitivity", "Sensitivity of AAS decreases when a laser is used", "AAS is about 100-fold more sensitive than flame emission"], 
+                correctAnswer: 3 
+            },
+            { 
+                question: "Q5. Why is a different hollow cathode lamp needed for each element?", 
+                options: ["Because the lamp is made of the element to be measured, so it gives the same wavelength", "Because each element needs a different inert gas", "Because each element needs a different quartz window", "Because each element has a different burner"], 
+                correctAnswer: 0 
+            },
+            { 
+                question: "Q6. Why must the effect of flame emission be eliminated in the detector?", 
+                options: ["Because it increases the lamp intensity", "Because we need the signal intensity due to absorption only", "Because it removes the inert gas from the lamp", "Because it changes the wavelength of the monochromator"], 
+                correctAnswer: 1 
+            }
         ];
 
         let currentQuestionIndex = 0;
         let currentTeam = 1; 
         let team1Score = 0;
         let team2Score = 0;
-        let canClick = true; 
+        let isAnsweredCorrectly = false; // متغير جديد عشان نعرف هل السؤال ده اتجاوب صح ولا لأ
 
         // الشاشة الكاملة
         function toggleFullscreen() {
@@ -466,7 +462,6 @@
             });
         }
 
-        // دالة عرض السلايد (بتفرق بين الصورة والفيديو)
         function loadStudent(id) {
             document.getElementById('hero-section').style.display = 'none';
             document.getElementById('dashboard-card').style.display = 'block';
@@ -477,25 +472,17 @@
             document.getElementById('display-student-name').innerText = student.name;
 
             const mediaContainer = document.getElementById('slide-media-container');
-            mediaContainer.innerHTML = ''; // تفريغ الحاوية
+            mediaContainer.innerHTML = ''; 
 
             if (student.mediaUrl && student.mediaUrl.trim() !== "") {
                 mediaContainer.style.display = 'flex'; 
-                
-                // لو النوع فيديو
                 if (student.type === 'video') {
-                    mediaContainer.style.cursor = 'default'; // إلغاء شكل التكبير
-                    mediaContainer.innerHTML = `
-                        <video controls autoplay>
-                            <source src="${student.mediaUrl}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    `;
-                } 
-                // لو النوع صورة
-                else {
+                    mediaContainer.style.cursor = 'default'; 
+                    mediaContainer.onclick = null;
+                    mediaContainer.innerHTML = `<video controls autoplay><source src="${student.mediaUrl}" type="video/mp4"></video>`;
+                } else {
                     mediaContainer.style.cursor = 'zoom-in';
-                    mediaContainer.onclick = openFullscreen; // تفعيل التكبير
+                    mediaContainer.onclick = openFullscreen; 
                     mediaContainer.innerHTML = `<img id="slide-image" src="${student.mediaUrl}" alt="${student.name}">`;
                 }
             } else {
@@ -503,7 +490,6 @@
             }
         }
 
-        // دوال الصورة الكاملة
         function openFullscreen() {
             const mainImage = document.getElementById('slide-image');
             if (mainImage) {
@@ -540,7 +526,7 @@
         }
 
         function loadQuestion() {
-            canClick = true;
+            isAnsweredCorrectly = false; // تصفير الحالة عند تحميل سؤال جديد
             document.getElementById('next-btn').style.display = 'none';
             document.getElementById('feedback-text').className = 'feedback-text';
             document.getElementById('feedback-text').innerText = '';
@@ -562,6 +548,9 @@
             q.options.forEach((opt, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
+                // إزالة كلاسات التحديد عشان نبدأ على نظافة
+                btn.classList.remove('correct', 'wrong', 'disabled');
+                
                 btn.innerHTML = `
                     <div class="option-content">
                         <div class="letter">${letters[index]}</div> 
@@ -575,37 +564,47 @@
             });
         }
 
+        // الدالة المعدلة (لما يختار غلط ميقولوش الصح)
         function checkAnswer(selectedIndex, btn) {
-            if (!canClick) return;
-            canClick = false;
+            if (isAnsweredCorrectly) return; // لو حد جاوب صح خلاص مينفعش يدوس تاني
+
             const q = quizData[currentQuestionIndex];
-            const allBtns = document.querySelectorAll('.option-btn');
             const feedback = document.getElementById('feedback-text');
-            allBtns.forEach(b => b.classList.add('disabled'));
 
             if (selectedIndex === q.correctAnswer) {
+                // الإجابة صح
+                isAnsweredCorrectly = true;
                 btn.classList.add('correct');
                 playSound('correct');
-                
-                // إطلاق الزينة القوية
                 fireConfetti();
 
                 feedback.innerText = "Correct! +1 Point";
                 feedback.style.color = "var(--success)";
                 feedback.classList.add('show');
+                
                 if (currentTeam === 1) team1Score += 1;
                 else team2Score += 1;
+                
+                // قفل كل الأزرار التانية
+                document.querySelectorAll('.option-btn').forEach(b => {
+                    if(!b.classList.contains('correct')) b.classList.add('disabled');
+                });
+
+                updateScoreboard();
+                document.getElementById('next-btn').style.display = 'inline-block';
+                
             } else {
-                btn.classList.add('wrong');
+                // الإجابة غلط
+                btn.classList.add('wrong'); // يحولها حمرا ويقفلها عشان ميتدوسش تاني
                 playSound('wrong');
-                feedback.innerText = "Oops! Wrong Answer";
+                
+                feedback.innerText = "Oops! Wrong. Try again.";
                 feedback.style.color = "var(--danger)";
                 feedback.classList.add('show');
-                allBtns[q.correctAnswer].classList.add('correct');
+                
+                // مش بنعمل حاجة للأزرار التانية، سايبينها شغالة عشان يجرب تاني
+                // ومش بنظهر زرار Next
             }
-
-            updateScoreboard();
-            document.getElementById('next-btn').style.display = 'inline-block';
         }
 
         function nextQuestion() {
@@ -615,35 +614,22 @@
             loadQuestion();
         }
 
-        // ==========================================
-        // دالة الزينة الجديدة (انفجار قوي + مطر ألوان)
-        // ==========================================
+        // دالة الزينة
         function fireConfetti() {
-            var duration = 3 * 1000; // 3 ثواني
+            var duration = 2 * 1000; 
             var animationEnd = Date.now() + duration;
             var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
 
-            // انفجار ضخم في النص
             confetti({
-                particleCount: 150,
-                spread: 100,
-                origin: { y: 0.6 },
-                zIndex: 10000,
+                particleCount: 100, spread: 80, origin: { y: 0.6 }, zIndex: 10000,
                 colors: ['#1e60d2', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6']
             });
 
-            // مطر ورق من على اليمين والشمال
             var interval = setInterval(function() {
                 var timeLeft = animationEnd - Date.now();
-
-                if (timeLeft <= 0) {
-                    return clearInterval(interval);
-                }
-
-                var particleCount = 50 * (timeLeft / duration);
-                // من الشمال
+                if (timeLeft <= 0) return clearInterval(interval);
+                var particleCount = 40 * (timeLeft / duration);
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.1, y: Math.random() - 0.2 } }));
-                // من اليمين
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.9, y: Math.random() - 0.2 } }));
             }, 250);
         }
