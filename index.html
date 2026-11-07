@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- مكتبة الزينة (Confetti) -->
+    <!-- مكتبة الزينة -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
@@ -37,28 +37,17 @@
             flex-direction: column;
             align-items: center;
             padding-top: 70px; 
+            overflow-x: hidden;
         }
 
         /* الشريط العلوي */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: var(--white);
-            height: 70px;
-            padding: 0 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            z-index: 1000;
+            position: fixed; top: 0; left: 0; width: 100%; background: var(--white);
+            height: 70px; padding: 0 30px; display: flex; justify-content: space-between;
+            align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.05); z-index: 1000;
         }
         
-        .logo {
-            font-size: 24px; font-weight: 800; color: var(--blue-dark);
-            display: flex; align-items: center; gap: 12px;
-        }
+        .logo { font-size: 24px; font-weight: 800; color: var(--blue-dark); display: flex; align-items: center; gap: 12px; }
         .logo-icon {
             background: linear-gradient(135deg, var(--blue-primary), #154a9e); 
             color: var(--white); width: 40px; height: 40px; border-radius: 10px;
@@ -67,28 +56,24 @@
         }
 
         .nav-actions { display: flex; gap: 10px; align-items: center; }
-        
         .action-icon-btn {
-            background: var(--white); color: var(--text-muted);
-            border: 1px solid var(--gray-border); height: 40px; padding: 0 15px;
-            border-radius: 10px; display: flex; justify-content: center; align-items: center;
-            gap: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s;
+            background: var(--white); color: var(--text-muted); border: 1px solid var(--gray-border);
+            height: 40px; padding: 0 15px; border-radius: 10px; display: flex;
+            justify-content: center; align-items: center; gap: 8px; font-size: 14px;
+            font-weight: 600; cursor: pointer; transition: 0.3s;
         }
         .action-icon-btn:hover { background: var(--blue-light); color: var(--blue-primary); border-color: var(--blue-primary); }
         .quiz-btn { color: var(--warning); border-color: #fcd34d; background: #fffbeb;}
         .quiz-btn:hover { background: var(--warning); color: var(--white); border-color: var(--warning); }
-        
         .fullscreen-btn { color: var(--blue-primary); border-color: var(--blue-primary); background: var(--blue-light); }
         .fullscreen-btn:hover { background: var(--blue-primary); color: var(--white); }
 
         /* شريط أزرار الطلاب */
         .students-nav-container {
             width: 100%; max-width: 1200px; background: transparent;
-            padding: 15px 20px; display: flex; overflow-x: auto; gap: 15px;
-            scrollbar-width: none; 
+            padding: 15px 20px; display: flex; overflow-x: auto; gap: 15px; scrollbar-width: none; 
         }
         .students-nav-container::-webkit-scrollbar { display: none; }
-
         .student-btn {
             padding: 10px 24px; border-radius: 50px; border: 1px solid var(--gray-border);
             background: var(--white); color: var(--text-muted); font-weight: 700; font-size: 18px;
@@ -98,13 +83,8 @@
         .student-btn:hover { background: var(--blue-light); border-color: var(--blue-primary); color: var(--blue-primary); transform: translateY(-2px);}
         .student-btn.active { background: var(--blue-primary); color: var(--white); border-color: var(--blue-primary); box-shadow: 0 4px 15px rgba(30, 96, 210, 0.3); }
 
-        /* منطقة المحتوى الرئيسية */
-        .main-content {
-            width: 100%; max-width: 1000px;
-            padding: 20px; display: flex; flex-direction: column; align-items: center;
-        }
-
-        /* شاشة الترحيب */
+        /* المحتوى الرئيسي */
+        .main-content { width: 100%; max-width: 1000px; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .hero-section { text-align: center; margin-top: 5vh; display: block; }
         .hero-section h1 { font-size: 42px; font-weight: 800; margin-bottom: 15px; }
         .hero-section h1 span { color: var(--blue-primary); }
@@ -114,34 +94,27 @@
         .dashboard-card {
             background: var(--white); width: 100%; border-radius: 20px;
             box-shadow: var(--shadow); border: 1px solid var(--gray-border);
-            display: none; overflow: hidden; animation: fadeIn 0.3s ease-out;
-            padding: 30px; 
+            display: none; overflow: hidden; animation: fadeIn 0.3s ease-out; padding: 30px; 
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         .slide-content { text-align: center; }
         
-        /* تصميم حاوية الوسائط (صورة أو فيديو) */
-        .slide-media-container {
-            margin-bottom: 20px; display: flex; justify-content: center; align-items: center;
-            width: 100%; position: relative; cursor: zoom-in; 
-        }
-
-        .slide-media-container img {
-            width: 100%; max-height: 65vh; border-radius: 16px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            object-fit: contain; background-color: var(--gray-bg); 
-        }
-        
-        .slide-media-container video {
-            width: 100%; max-height: 65vh; border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            outline: none; background-color: #000; cursor: default; 
-        }
-
         .student-main-name {
             font-size: 45px; font-weight: 800; color: var(--blue-dark);
-            margin-bottom: 10px; line-height: 1.2; text-transform: capitalize;
+            margin-bottom: 20px; line-height: 1.2; text-transform: capitalize;
+        }
+
+        .slide-media-container {
+            margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;
+            width: 100%; position: relative; gap: 15px;
+        }
+        .slide-media-container img {
+            width: 100%; max-height: 55vh; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            object-fit: contain; background-color: var(--gray-bg); cursor: zoom-in;
+        }
+        .slide-media-container video {
+            width: 100%; max-height: 45vh; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            outline: none; background-color: #000; 
         }
 
         .student-group-tag {
@@ -157,9 +130,7 @@
         }
         .fullscreen-overlay.active { display: flex; animation: fadeIn 0.3s ease-out; }
         .fullscreen-overlay img { max-width: 95%; max-height: 95%; object-fit: contain; border-radius: 8px; }
-        .close-fullscreen {
-            position: absolute; top: 20px; right: 30px; color: var(--white); font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
+        .close-fullscreen { position: absolute; top: 20px; right: 30px; color: var(--white); font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .close-fullscreen:hover { color: var(--danger); transform: scale(1.1); }
 
         /* ========================================== */
@@ -168,31 +139,46 @@
         .quiz-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: linear-gradient(135deg, #f0f5ff 0%, #ffffff 100%);
-            z-index: 9999; display: none; flex-direction: column; padding: 20px 40px; overflow: hidden; 
+            z-index: 9999; display: none; flex-direction: column; padding: 20px 40px; 
+            overflow: hidden; 
         }
         .quiz-overlay.active { display: flex; animation: slideIn 0.3s ease-out; }
         @keyframes slideIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .quiz-header h2 { font-size: 28px; font-weight: 800; color: var(--blue-dark); }
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-shrink: 0;}
+        .quiz-header h2 { font-size: 24px; font-weight: 800; color: var(--blue-dark); }
         .exit-btn {
-            background: var(--danger); color: var(--white); border: none;
-            padding: 10px 20px; border-radius: 10px; font-size: 16px; font-weight: 700;
-            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;
+            background: var(--danger); color: var(--white); border: none; padding: 8px 15px;
+            border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;
         }
         .exit-btn:hover { background: #b91c1c; transform: translateY(-2px); }
 
-        .scoreboard { display: flex; justify-content: center; gap: 50px; margin-bottom: 25px; flex-shrink: 0; }
-        
-        .team-score {
-            width: 180px; height: 180px; background: var(--white); border-radius: 20px;
+        /* شاشة اختيار الفريق (Setup) */
+        .quiz-setup {
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            border: 3px solid var(--gray-border); transition: 0.3s ease-in-out; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative;
+            height: 100%; text-align: center; flex: 1;
+        }
+        .quiz-setup h1 { font-size: 40px; color: var(--blue-dark); margin-bottom: 40px; }
+        .group-buttons { display: flex; gap: 30px; }
+        .select-group-btn {
+            background: var(--white); border: 3px solid var(--gray-border); padding: 30px 50px;
+            border-radius: 20px; font-size: 24px; font-weight: 800; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        .select-group-btn:hover { transform: scale(1.05); border-color: var(--blue-primary); box-shadow: 0 15px 30px rgba(30, 96, 210, 0.2); }
+        .select-group-btn.g1 { color: var(--blue-primary); }
+        .select-group-btn.g2 { color: var(--warning); }
+
+        /* لوحة النتيجة */
+        .scoreboard { display: flex; justify-content: center; gap: 30px; margin-bottom: 10px; flex-shrink: 0; }
+        .team-score {
+            width: 120px; height: 120px; background: var(--white); border-radius: 20px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border: 3px solid var(--gray-border); transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative;
         }
         .team-score.active-team {
             border-color: var(--blue-primary); background: var(--blue-light);
-            transform: scale(1.1); box-shadow: 0 0 0 6px rgba(30, 96, 210, 0.2), 0 10px 25px rgba(30, 96, 210, 0.4);
+            transform: scale(1.05); box-shadow: 0 0 0 5px rgba(30, 96, 210, 0.2), 0 10px 25px rgba(30, 96, 210, 0.4);
             animation: pulse-blue 1.5s infinite;
         }
         @keyframes pulse-blue {
@@ -201,98 +187,123 @@
             100% { box-shadow: 0 0 0 0 rgba(30, 96, 210, 0), 0 10px 25px rgba(30, 96, 210, 0.4); }
         }
         .turn-badge {
-            position: absolute; top: -15px; background: var(--blue-primary); color: var(--white);
-            padding: 4px 15px; border-radius: 20px; font-size: 14px; font-weight: 800;
-            text-transform: uppercase; letter-spacing: 1px; opacity: 0; transform: translateY(10px);
-            transition: 0.3s; box-shadow: 0 4px 10px rgba(30, 96, 210, 0.3);
+            position: absolute; top: -12px; background: var(--blue-primary); color: var(--white);
+            padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 800; opacity: 0; transform: translateY(10px); transition: 0.3s;
         }
         .team-score.active-team .turn-badge { opacity: 1; transform: translateY(0); }
-        
-        .team-score h3 { font-size: 26px; margin-bottom: 5px; color: var(--text-muted); font-weight: 700; transition: 0.3s; }
+        .team-score h3 { font-size: 18px; margin-bottom: 5px; color: var(--text-muted); font-weight: 700; transition: 0.3s; }
         .team-score.active-team h3 { color: var(--blue-primary); font-weight: 800; }
-        .team-score .score { font-size: 60px; font-weight: 800; color: var(--blue-dark); line-height: 1; }
-        .team-score.active-team .score { color: var(--blue-primary); }
+        .team-score .score { font-size: 40px; font-weight: 800; color: var(--blue-dark); line-height: 1; }
 
+        /* شاشة العجلة (Wheel) */
+        .quiz-wheel-section {
+            display: none; flex-direction: column; justify-content: center; align-items: center; height: 100%; flex: 1;
+        }
+        .turn-text { font-size: 26px; font-weight: 800; color: var(--blue-primary); margin-bottom: 15px; text-transform: uppercase; }
+        
+        .wheel-wrapper {
+            position: relative; width: 280px; height: 280px; margin-bottom: 20px;
+        }
+        #wheel-canvas {
+            width: 100%; height: 100%; border-radius: 50%;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.15), 0 0 0 8px var(--white);
+            /* تم إزالة الـ transition من هنا ووضعه في الجافاسكريبت عشان نتحكم فيه */
+        }
+        .wheel-pointer {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent;
+            border-top: 30px solid var(--danger); z-index: 10; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
+        }
+        .spin-btn {
+            background: var(--blue-primary); color: var(--white); border: none;
+            padding: 12px 50px; border-radius: 50px; font-size: 20px; font-weight: 800;
+            cursor: pointer; box-shadow: 0 10px 20px rgba(30, 96, 210, 0.4); transition: 0.3s;
+        }
+        .spin-btn:hover { background: #154a9e; transform: scale(1.05); }
+        .spin-btn:disabled { background: var(--text-muted); cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* شاشة السؤال */
+        .quiz-question-section {
+            display: none; flex-direction: column; height: 100%; flex: 1; overflow-y: auto; padding-bottom: 10px;
+        }
+        
         .quiz-card {
-            background: var(--white); border-radius: 20px; padding: 30px;
-            box-shadow: var(--shadow); border: 1px solid var(--gray-border);
-            flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: center;
+            background: var(--white); border-radius: 20px; padding: 25px; box-shadow: var(--shadow);
+            border: 1px solid var(--gray-border); display: flex; flex-direction: column; text-align: center;
+            max-height: 100%; overflow-y: auto; 
         }
-        
-        /* تصغير حجم خط السؤال شوية عشان الأسئلة الطويلة تبان كويسة */
-        .question-text { font-size: 26px; font-weight: 700; color: var(--blue-dark); margin-bottom: 25px; direction: ltr; line-height: 1.4; }
-        
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .question-text { font-size: 22px; font-weight: 700; color: var(--blue-dark); margin-bottom: 20px; direction: ltr; line-height: 1.4; flex-shrink: 0;}
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; flex-shrink: 0;}
         .option-btn {
-            background: var(--gray-bg); border: 2px solid var(--gray-border);
-            padding: 15px 20px; border-radius: 16px; font-size: 18px; font-weight: 600;
-            color: var(--blue-dark); cursor: pointer; transition: 0.2s;
-            display: flex; align-items: center; justify-content: space-between; direction: ltr; 
-            text-align: left;
+            background: var(--gray-bg); border: 2px solid var(--gray-border); padding: 12px 15px;
+            border-radius: 12px; font-size: 16px; font-weight: 600; color: var(--blue-dark);
+            cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: space-between; direction: ltr; text-align: left;
         }
-        .option-content { display: flex; align-items: center; gap: 15px; }
-        .option-btn .letter {
-            background: var(--white); width: 35px; height: 35px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 16px; color: var(--text-muted); border: 1px solid var(--gray-border); flex-shrink: 0;
-        }
-        .status-icon { display: none; font-size: 24px; }
+        .option-content { display: flex; align-items: center; gap: 10px; }
+        .option-btn .letter { background: var(--white); width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 14px; color: var(--text-muted); border: 1px solid var(--gray-border); flex-shrink: 0; }
+        .status-icon { display: none; font-size: 20px; }
         
-        /* شكل الزرار العادي */
-        .option-btn:hover:not(.correct):not(.wrong) { border-color: var(--blue-primary); background: var(--blue-light); transform: translateY(-3px); }
-        .option-btn:hover:not(.correct):not(.wrong) .letter { background: var(--blue-primary); color: var(--white); }
-        
-        /* الإجابة الصحيحة */
+        .option-btn:hover:not(.correct):not(.wrong) { border-color: var(--blue-primary); background: var(--blue-light); transform: translateY(-2px); }
         .option-btn.correct { background: #ecfdf5; border-color: var(--success); color: var(--success); pointer-events: none; }
         .option-btn.correct .letter { background: var(--success); color: var(--white); }
         .option-btn.correct .check-icon { display: block; color: var(--success); }
         
-        /* الإجابة الغلط */
         .option-btn.wrong { background: #fef2f2; border-color: var(--danger); color: var(--danger); pointer-events: none; animation: shake 0.4s ease; }
         .option-btn.wrong .letter { background: var(--danger); color: var(--white); }
         .option-btn.wrong .cross-icon { display: block; color: var(--danger); }
-        
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-
-        /* تعطيل باقي الأزرار لما نجيب صح */
         .option-btn.disabled { pointer-events: none; opacity: 0.7; }
 
-        .feedback-text { font-size: 20px; font-weight: 700; height: 30px; margin-bottom: 15px; opacity: 0; transition: 0.3s; }
+        .feedback-text { font-size: 18px; font-weight: 700; height: 25px; margin-bottom: 10px; opacity: 0; transition: 0.3s; flex-shrink: 0;}
         .feedback-text.show { opacity: 1; animation: pop 0.4s ease; }
         @keyframes pop { 0% { transform: scale(0.8); } 100% { transform: scale(1); } }
 
         .next-btn {
-            background: var(--blue-primary); color: var(--white); border: none;
-            padding: 15px 50px; border-radius: 12px; font-size: 20px; font-weight: 700;
-            cursor: pointer; transition: 0.3s; display: none; align-self: center;
+            background: var(--blue-primary); color: var(--white); border: none; padding: 12px 40px;
+            border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.3s; display: none; align-self: center; flex-shrink: 0;
         }
         .next-btn:hover { background: #154a9e; transform: scale(1.05); }
+
+        /* شاشة الفائز */
+        .winner-screen {
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            height: 100%; flex: 1; text-align: center; animation: pop 0.6s ease-out;
+        }
+        .winner-screen h1 { font-size: 50px; font-weight: 800; color: var(--blue-dark); margin-bottom: 20px; }
+        .winner-screen h2 { font-size: 60px; font-weight: 900; margin-bottom: 30px; color: var(--blue-primary); text-shadow: 0 4px 10px rgba(30,96,210,0.3);}
+        .winner-screen p { font-size: 24px; color: var(--text-muted); margin-bottom: 30px; }
+        .play-again-btn {
+            background: var(--success); color: var(--white); border: none; padding: 15px 40px;
+            border-radius: 50px; font-size: 20px; font-weight: 800; cursor: pointer; transition: 0.3s;
+        }
+        .play-again-btn:hover { background: #059669; transform: scale(1.05); }
 
         /* الموبايل */
         @media (max-width: 768px) {
             .navbar { padding: 0 15px; }
             .logo { font-size: 20px; }
-            .logo-icon { width: 35px; height: 35px; font-size: 16px; }
             .action-icon-btn .btn-text { display: none; }
-            .action-icon-btn { padding: 0 12px; }
-            .dashboard-card { padding: 15px; }
-            .student-main-name { font-size: 30px; } 
-            .slide-media-container img, .slide-media-container video { max-height: 55vh; }
-            .quiz-overlay { padding: 15px; overflow-y: auto; } /* السماح بالسكرول لو الشاشة صغيرة */
+            .student-main-name { font-size: 32px; } 
+            .quiz-overlay { padding: 15px; }
             .quiz-header h2 { font-size: 20px; }
+            .group-buttons { flex-direction: column; gap: 15px; }
+            .wheel-wrapper { width: 220px; height: 220px; }
+            .spin-btn { padding: 10px 40px; font-size: 18px; }
             
-            .scoreboard { gap: 15px; margin-bottom: 15px;}
-            .team-score { width: 110px; height: 110px; }
-            .team-score .score { font-size: 32px; }
-            .team-score h3 { font-size: 16px; }
+            .scoreboard { gap: 15px; }
+            .team-score { width: 100px; height: 100px; }
+            .team-score .score { font-size: 30px; }
+            .team-score h3 { font-size: 15px; }
+            .turn-text { font-size: 20px; margin-bottom: 10px; }
             
+            .quiz-card { padding: 15px; }
             .question-text { font-size: 18px; margin-bottom: 15px; }
             .options-grid { grid-template-columns: 1fr; gap: 10px; }
-            .option-btn { padding: 12px; font-size: 15px; }
-            .option-btn .letter { width: 28px; height: 28px; font-size: 12px; }
-            .next-btn { padding: 12px 30px; font-size: 16px; }
-            .hero-section h1 { font-size: 32px; }
-            .student-btn { font-size: 15px; padding: 8px 16px; }
+            .option-btn { padding: 10px; font-size: 14px; }
+            .option-btn .letter { width: 25px; height: 25px; font-size: 12px; }
+            .next-btn { padding: 10px 30px; font-size: 16px; }
+            .winner-screen h1 { font-size: 32px; }
+            .winner-screen h2 { font-size: 40px; }
         }
     </style>
 </head>
@@ -307,7 +318,7 @@
             <button class="action-icon-btn fullscreen-btn" onclick="toggleFullscreen()" title="Fullscreen">
                 <i class="fa-solid fa-expand"></i>
             </button>
-            <button class="action-icon-btn quiz-btn" onclick="openQuiz()">
+            <button class="action-icon-btn quiz-btn" onclick="openQuizSetup()">
                 <i class="fa-solid fa-gamepad"></i> <span class="btn-text">Quiz Game</span>
             </button>
             <button class="action-icon-btn" onclick="openSettings()" title="Settings">
@@ -319,7 +330,6 @@
     <div class="students-nav-container" id="students-nav"></div>
 
     <main class="main-content">
-        
         <div class="hero-section" id="hero-section">
             <h1>Medical Data <span>Analytics</span></h1>
             <p>Group 3 - Second Year Project Presentation</p>
@@ -327,46 +337,87 @@
 
         <div class="dashboard-card" id="dashboard-card">
             <div class="slide-content">
-                <div class="slide-media-container" id="slide-media-container">
-                    <!-- سيتم حقن الصورة أو الفيديو هنا عبر الجافاسكريبت -->
-                </div>
                 <h1 class="student-main-name" id="display-student-name">Student Name</h1>
+                <div class="slide-media-container" id="slide-media-container">
+                    <!-- سيتم حقن الصورة والفيديو هنا -->
+                </div>
                 <div class="student-group-tag">Group 3</div>
             </div>
         </div>
-
     </main>
 
-    <!-- شاشة عرض الصورة كاملة -->
     <div class="fullscreen-overlay" id="fullscreen-overlay" onclick="closeFullscreen()">
         <span class="close-fullscreen">&times;</span>
         <img id="fullscreen-img" src="" alt="Fullscreen Image">
     </div>
 
-    <!-- شاشة اللعبة (Quiz) -->
+    <!-- شاشة اللعبة -->
     <div class="quiz-overlay" id="quiz-overlay">
+        
         <div class="quiz-header">
             <h2><i class="fa-solid fa-gamepad" style="color: var(--warning);"></i> Quiz Challenge</h2>
             <button class="exit-btn" onclick="closeQuiz()"><i class="fa-solid fa-right-from-bracket"></i> Exit</button>
         </div>
-        <div class="scoreboard">
-            <div class="team-score" id="team1-card">
-                <div class="turn-badge">Turn</div>
-                <h3>Group 1</h3>
-                <div class="score" id="team1-score">0</div>
-            </div>
-            <div class="team-score" id="team2-card">
-                <div class="turn-badge">Turn</div>
-                <h3>Group 2</h3>
-                <div class="score" id="team2-score">0</div>
+
+        <!-- 1. شاشة اختيار الفريق -->
+        <div class="quiz-setup" id="quiz-setup-screen">
+            <h1>Who starts first?</h1>
+            <div class="group-buttons">
+                <button class="select-group-btn g1" onclick="startGame(1)">Group 1</button>
+                <button class="select-group-btn g2" onclick="startGame(2)">Group 2</button>
             </div>
         </div>
-        <div class="quiz-card">
-            <div class="question-text" id="question-text">Question will appear here...</div>
-            <div class="options-grid" id="options-container"></div>
-            <div class="feedback-text" id="feedback-text"></div>
-            <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question <i class="fa-solid fa-arrow-left"></i></button>
+
+        <!-- 2. شاشة عجلة الحظ -->
+        <div class="quiz-wheel-section" id="quiz-wheel-screen">
+            <div class="scoreboard">
+                <div class="team-score" id="team1-card-wheel">
+                    <h3>Group 1</h3>
+                    <div class="score" id="team1-score-wheel">0</div>
+                </div>
+                <div class="team-score" id="team2-card-wheel">
+                    <h3>Group 2</h3>
+                    <div class="score" id="team2-score-wheel">0</div>
+                </div>
+            </div>
+
+            <div class="turn-text" id="wheel-turn-text">Group 1's Turn</div>
+            
+            <div class="wheel-wrapper">
+                <div class="wheel-pointer"></div>
+                <canvas id="wheel-canvas" width="280" height="280"></canvas>
+            </div>
+            <button class="spin-btn" id="spin-btn" onclick="spinWheel()">SPIN</button>
         </div>
+
+        <!-- 3. شاشة السؤال -->
+        <div class="quiz-question-section" id="quiz-question-screen">
+            <div class="scoreboard">
+                <div class="team-score" id="team1-card-q">
+                    <h3>Group 1</h3>
+                    <div class="score" id="team1-score-q">0</div>
+                </div>
+                <div class="team-score" id="team2-card-q">
+                    <h3>Group 2</h3>
+                    <div class="score" id="team2-score-q">0</div>
+                </div>
+            </div>
+            <div class="quiz-card">
+                <div class="question-text" id="question-text">Question will appear here...</div>
+                <div class="options-grid" id="options-container"></div>
+                <div class="feedback-text" id="feedback-text"></div>
+                <button class="next-btn" id="next-btn" onclick="nextQuestion()">Back to Wheel <i class="fa-solid fa-arrow-left"></i></button>
+            </div>
+        </div>
+
+        <!-- 4. شاشة الفائز -->
+        <div class="winner-screen" id="winner-screen">
+            <h1>🏆 Game Over! 🏆</h1>
+            <h2 id="winner-text">Group 1 Wins!</h2>
+            <p id="final-score-text">Score: 5 - 3</p>
+            <button class="play-again-btn" onclick="openQuizSetup()">Play Again</button>
+        </div>
+
     </div>
 
     <!-- نافذة الإعدادات -->
@@ -381,70 +432,46 @@
     </div>
 
     <script>
-        // البيانات: تم تغيير الطالب رقم 9 إلى فيديو
+        // البيانات
         let studentsData = [
-            { id: 1, name: "Sondos Mohamed", mediaUrl: "images/1.jpg", type: "image" },
-            { id: 2, name: "Dina Yasser", mediaUrl: "images/2.jpg", type: "image" },
-            { id: 3, name: "Yasmin Hani", mediaUrl: "images/3.jpg", type: "image" },
-            { id: 4, name: "Maryam Mohamed", mediaUrl: "images/4.jpg", type: "image" },
-            { id: 5, name: "Abdallah Mahmoud", mediaUrl: "images/5.jpg", type: "image" },
-            { id: 6, name: "Shaza Ahmed", mediaUrl: "images/6.jpg", type: "image" },
-            { id: 7, name: "Renad Ashraf", mediaUrl: "images/7.jpg", type: "image" },
-            { id: 8, name: "Yasmin Ashraf", mediaUrl: "images/8.jpg", type: "image" },
-            { id: 9, name: "Rawan Mostafa", mediaUrl: "images/9.mp4", type: "video" }
+            { id: 1, name: "Sondos Mohamed", imageUrl: "images/1.jpg" },
+            { id: 2, name: "Dina Yasser", imageUrl: "images/2.jpg" },
+            { id: 3, name: "Yasmin Hani", imageUrl: "images/3.jpg" },
+            { id: 4, name: "Maryam Mohamed", imageUrl: "images/4.jpg" },
+            { id: 5, name: "Abdallah Mahmoud", imageUrl: "images/5.jpg" },
+            { id: 6, name: "Shaza Ahmed", imageUrl: "images/6.jpg" },
+            { id: 7, name: "Renad Ashraf", imageUrl: "images/7.jpg" },
+            { id: 8, name: "Yasmin Ashraf", imageUrl: "images/8.jpg" },
+            { id: 9, name: "Rawan Mostafa", imageUrl: "images/9.jpg", videoUrl: "images/9.mp4" }
         ];
 
-        // الأسئلة الجديدة (من الصور)
         const quizData = [
-            { 
-                question: "Q1. In which type of flame are the fuel and the oxidant mixed in the flame itself?", 
-                options: ["Premix (laminar) flame", "Un-premix (turbulent) flame", "Flame with a mixing chamber", "Laminar flame with a chopper"], 
-                correctAnswer: 1 
-            },
-            { 
-                question: "Q2. According to the principle of AAS, what happens when atoms are exposed to light of a certain wavelength?", 
-                options: ["Electrons emit light and fall to lower energy levels", "Atoms are converted into molecules", "Electrons absorb light and jump from low energy levels to high ones", "The atoms are removed from the flame"], 
-                correctAnswer: 2 
-            },
-            { 
-                question: "Q3. What is the function of the monochromator in AAS?", 
-                options: ["Select a given emission line and isolate it from other lines", "Convert the sample into free atoms", "Eliminate the effect of flame emission", "Display the absorption reading"], 
-                correctAnswer: 0 
-            },
-            { 
-                question: "Q4. Which statement about the sensitivity of AAS is correct?", 
-                options: ["AAS is less sensitive than flame emission", "AAS and flame emission have the same sensitivity", "Sensitivity of AAS decreases when a laser is used", "AAS is about 100-fold more sensitive than flame emission"], 
-                correctAnswer: 3 
-            },
-            { 
-                question: "Q5. Why is a different hollow cathode lamp needed for each element?", 
-                options: ["Because the lamp is made of the element to be measured, so it gives the same wavelength", "Because each element needs a different inert gas", "Because each element needs a different quartz window", "Because each element has a different burner"], 
-                correctAnswer: 0 
-            },
-            { 
-                question: "Q6. Why must the effect of flame emission be eliminated in the detector?", 
-                options: ["Because it increases the lamp intensity", "Because we need the signal intensity due to absorption only", "Because it removes the inert gas from the lamp", "Because it changes the wavelength of the monochromator"], 
-                correctAnswer: 1 
-            }
+            { question: "Q1. In which type of flame are the fuel and the oxidant mixed in the flame itself?", options: ["Premix (laminar) flame", "Un-premix (turbulent) flame", "Flame with a mixing chamber", "Laminar flame with a chopper"], correctAnswer: 1 },
+            { question: "Q2. According to the principle of AAS, what happens when atoms are exposed to light of a certain wavelength?", options: ["Electrons emit light and fall to lower energy levels", "Atoms are converted into molecules", "Electrons absorb light and jump from low energy levels to high ones", "The atoms are removed from the flame"], correctAnswer: 2 },
+            { question: "Q3. What is the function of the monochromator in AAS?", options: ["Select a given emission line and isolate it from other lines", "Convert the sample into free atoms", "Eliminate the effect of flame emission", "Display the absorption reading"], correctAnswer: 0 },
+            { question: "Q4. Which statement about the sensitivity of AAS is correct?", options: ["AAS is less sensitive than flame emission", "AAS and flame emission have the same sensitivity", "Sensitivity of AAS decreases when a laser is used", "AAS is about 100-fold more sensitive than flame emission"], correctAnswer: 3 },
+            { question: "Q5. Why is a different hollow cathode lamp needed for each element?", options: ["Because the lamp is made of the element to be measured, so it gives the same wavelength", "Because each element needs a different inert gas", "Because each element needs a different quartz window", "Because each element has a different burner"], correctAnswer: 0 },
+            { question: "Q6. Why must the effect of flame emission be eliminated in the detector?", options: ["Because it increases the lamp intensity", "Because we need the signal intensity due to absorption only", "Because it removes the inert gas from the lamp", "Because it changes the wavelength of the monochromator"], correctAnswer: 1 }
         ];
 
-        let currentQuestionIndex = 0;
         let currentTeam = 1; 
         let team1Score = 0;
         let team2Score = 0;
-        let isAnsweredCorrectly = false; // متغير جديد عشان نعرف هل السؤال ده اتجاوب صح ولا لأ
+        let isAnsweredCorrectly = false;
+        
+        let availableQuestions = [0, 1, 2, 3, 4, 5];
+        let currentQuestionIndex = null;
+        let isSpinning = false;
 
         // الشاشة الكاملة
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(() => {});
-                document.querySelector('.fullscreen-btn i').classList.remove('fa-expand');
-                document.querySelector('.fullscreen-btn i').classList.add('fa-compress');
+                document.querySelector('.fullscreen-btn i').classList.replace('fa-expand', 'fa-compress');
             } else {
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
-                    document.querySelector('.fullscreen-btn i').classList.remove('fa-compress');
-                    document.querySelector('.fullscreen-btn i').classList.add('fa-expand');
+                    document.querySelector('.fullscreen-btn i').classList.replace('fa-compress', 'fa-expand');
                 }
             }
         }
@@ -474,19 +501,11 @@
             const mediaContainer = document.getElementById('slide-media-container');
             mediaContainer.innerHTML = ''; 
 
-            if (student.mediaUrl && student.mediaUrl.trim() !== "") {
-                mediaContainer.style.display = 'flex'; 
-                if (student.type === 'video') {
-                    mediaContainer.style.cursor = 'default'; 
-                    mediaContainer.onclick = null;
-                    mediaContainer.innerHTML = `<video controls autoplay><source src="${student.mediaUrl}" type="video/mp4"></video>`;
-                } else {
-                    mediaContainer.style.cursor = 'zoom-in';
-                    mediaContainer.onclick = openFullscreen; 
-                    mediaContainer.innerHTML = `<img id="slide-image" src="${student.mediaUrl}" alt="${student.name}">`;
-                }
-            } else {
-                mediaContainer.style.display = 'none'; 
+            if (student.imageUrl) {
+                mediaContainer.innerHTML += `<img id="slide-image" src="${student.imageUrl}" onclick="openFullscreen()" alt="${student.name}">`;
+            }
+            if (student.videoUrl) {
+                mediaContainer.innerHTML += `<video controls><source src="${student.videoUrl}" type="video/mp4"></video>`;
             }
         }
 
@@ -501,46 +520,157 @@
             document.getElementById('fullscreen-overlay').classList.remove('active');
         }
 
-        // --- اللعبة (Quiz) ---
-        function openQuiz() {
+        // ==========================================
+        // منطق اللعبة 
+        // ==========================================
+
+        function openQuizSetup() {
             document.getElementById('quiz-overlay').classList.add('active');
-            currentQuestionIndex = 0;
+            
             team1Score = 0;
             team2Score = 0;
-            currentTeam = 1;
+            availableQuestions = [0, 1, 2, 3, 4, 5];
+            isSpinning = false;
+            
+            document.getElementById('quiz-setup-screen').style.display = 'flex';
+            document.getElementById('quiz-wheel-screen').style.display = 'none';
+            document.getElementById('quiz-question-screen').style.display = 'none';
+            document.getElementById('winner-screen').style.display = 'none'; 
+            
             updateScoreboard();
-            loadQuestion();
         }
 
         function closeQuiz() {
             document.getElementById('quiz-overlay').classList.remove('active');
         }
 
-        function updateScoreboard() {
-            document.getElementById('team1-score').innerText = team1Score;
-            document.getElementById('team2-score').innerText = team2Score;
-            document.getElementById('team1-card').classList.remove('active-team');
-            document.getElementById('team2-card').classList.remove('active-team');
-            if (currentTeam === 1) document.getElementById('team1-card').classList.add('active-team');
-            else document.getElementById('team2-card').classList.add('active-team');
+        function startGame(startingTeam) {
+            currentTeam = startingTeam;
+            updateScoreboard();
+            
+            document.getElementById('quiz-setup-screen').style.display = 'none';
+            document.getElementById('quiz-wheel-screen').style.display = 'flex';
+            
+            document.getElementById('wheel-turn-text').innerText = `Group ${currentTeam}'s Turn`;
+            
+            drawWheel();
+            resetWheelBtn(); // ضمان إن الزرار شغال
         }
 
-        function loadQuestion() {
-            isAnsweredCorrectly = false; // تصفير الحالة عند تحميل سؤال جديد
+        function updateScoreboard() {
+            document.getElementById('team1-score-q').innerText = team1Score;
+            document.getElementById('team2-score-q').innerText = team2Score;
+            document.getElementById('team1-score-wheel').innerText = team1Score;
+            document.getElementById('team2-score-wheel').innerText = team2Score;
+            
+            document.getElementById('team1-card-wheel').classList.remove('active-team');
+            document.getElementById('team2-card-wheel').classList.remove('active-team');
+            if (currentTeam === 1) document.getElementById('team1-card-wheel').classList.add('active-team');
+            else document.getElementById('team2-card-wheel').classList.add('active-team');
+        }
+
+        function drawWheel() {
+            const canvas = document.getElementById('wheel-canvas');
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = canvas.width / 2 - 5;
+            
+            const colors = ['#1e60d2', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6', '#0ea5e9'];
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (availableQuestions.length === 0) return;
+
+            const sliceAngle = (2 * Math.PI) / availableQuestions.length;
+            
+            availableQuestions.forEach((qIndex, i) => {
+                const startAngle = i * sliceAngle;
+                const endAngle = (i + 1) * sliceAngle;
+                
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + sliceAngle / 2);
+                ctx.textAlign = "right";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 16px Poppins";
+                ctx.fillText(`Q${qIndex + 1}`, radius - 20, 0);
+                ctx.restore();
+            });
+        }
+
+        // تصفير زرار العجلة (حل مشكلة التعليق)
+        function resetWheelBtn() {
+            const spinBtn = document.getElementById('spin-btn');
+            spinBtn.disabled = false;
+            spinBtn.innerText = "SPIN";
+            isSpinning = false;
+            
+            const canvas = document.getElementById('wheel-canvas');
+            // إزالة التأثير مؤقتاً عشان نرجع العجلة لنقطة الصفر فوراً
+            canvas.style.transition = 'none';
+            canvas.style.transform = 'rotate(0deg)';
+            // إجبار المتصفح على تطبيق التغيير
+            void canvas.offsetWidth; 
+            // إعادة التأثير عشان اللفة الجديدة
+            canvas.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+        }
+
+        function spinWheel() {
+            if (isSpinning || availableQuestions.length === 0) return;
+            isSpinning = true;
+            
+            const spinBtn = document.getElementById('spin-btn');
+            spinBtn.disabled = true;
+            spinBtn.innerText = "Spinning...";
+
+            const canvas = document.getElementById('wheel-canvas');
+            
+            const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+            currentQuestionIndex = availableQuestions[randomIndex];
+
+            const sliceAngleDegrees = 360 / availableQuestions.length;
+            const stopAngle = 360 - (randomIndex * sliceAngleDegrees) - (sliceAngleDegrees / 2);
+            
+            const extraSpins = 5; 
+            const totalRotation = (extraSpins * 360) + stopAngle;
+
+            canvas.style.transform = `rotate(${totalRotation}deg)`;
+
+            setTimeout(() => {
+                isSpinning = false;
+                availableQuestions = availableQuestions.filter(q => q !== currentQuestionIndex);
+                showQuestion();
+            }, 4000);
+        }
+
+        function showQuestion() {
+            document.getElementById('quiz-wheel-screen').style.display = 'none';
+            document.getElementById('quiz-question-screen').style.display = 'flex';
+            
+            document.getElementById('team1-card-q').classList.remove('active-team');
+            document.getElementById('team2-card-q').classList.remove('active-team');
+            if (currentTeam === 1) document.getElementById('team1-card-q').classList.add('active-team');
+            else document.getElementById('team2-card-q').classList.add('active-team');
+
+            isAnsweredCorrectly = false;
             document.getElementById('next-btn').style.display = 'none';
             document.getElementById('feedback-text').className = 'feedback-text';
             document.getElementById('feedback-text').innerText = '';
             
-            if (currentQuestionIndex >= quizData.length) {
-                document.getElementById('question-text').innerHTML = "🎉 Game Over! 🎉<br><span style='font-size:24px; color:var(--text-muted)'>Click 'Exit' to return.</span>";
-                document.getElementById('options-container').innerHTML = '';
-                document.getElementById('team1-card').classList.remove('active-team');
-                document.getElementById('team2-card').classList.remove('active-team');
-                return;
-            }
-
             const q = quizData[currentQuestionIndex];
             document.getElementById('question-text').innerText = q.question;
+            
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
             const letters = ['A', 'B', 'C', 'D'];
@@ -548,9 +678,6 @@
             q.options.forEach((opt, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                // إزالة كلاسات التحديد عشان نبدأ على نظافة
-                btn.classList.remove('correct', 'wrong', 'disabled');
-                
                 btn.innerHTML = `
                     <div class="option-content">
                         <div class="letter">${letters[index]}</div> 
@@ -564,15 +691,19 @@
             });
         }
 
-        // الدالة المعدلة (لما يختار غلط ميقولوش الصح)
+        // التعديل الجديد للإجابة الغلط
         function checkAnswer(selectedIndex, btn) {
-            if (isAnsweredCorrectly) return; // لو حد جاوب صح خلاص مينفعش يدوس تاني
+            if (isAnsweredCorrectly) return;
 
             const q = quizData[currentQuestionIndex];
             const feedback = document.getElementById('feedback-text');
+            const allBtns = document.querySelectorAll('.option-btn');
+
+            // قفل كل الأزرار فوراً عشان ميعرفوش يدوسوا تاني
+            allBtns.forEach(b => b.classList.add('disabled'));
 
             if (selectedIndex === q.correctAnswer) {
-                // الإجابة صح
+                // إجابة صح
                 isAnsweredCorrectly = true;
                 btn.classList.add('correct');
                 playSound('correct');
@@ -585,50 +716,89 @@
                 if (currentTeam === 1) team1Score += 1;
                 else team2Score += 1;
                 
-                // قفل كل الأزرار التانية
-                document.querySelectorAll('.option-btn').forEach(b => {
-                    if(!b.classList.contains('correct')) b.classList.add('disabled');
-                });
-
                 updateScoreboard();
-                document.getElementById('next-btn').style.display = 'inline-block';
                 
             } else {
-                // الإجابة غلط
-                btn.classList.add('wrong'); // يحولها حمرا ويقفلها عشان ميتدوسش تاني
+                // إجابة غلط
+                isAnsweredCorrectly = true; // بنخليها true عشان نقفل السؤال
+                btn.classList.add('wrong');
                 playSound('wrong');
                 
-                feedback.innerText = "Oops! Wrong. Try again.";
+                feedback.innerText = "Oops! Wrong Answer. Point lost.";
                 feedback.style.color = "var(--danger)";
                 feedback.classList.add('show');
-                
-                // مش بنعمل حاجة للأزرار التانية، سايبينها شغالة عشان يجرب تاني
-                // ومش بنظهر زرار Next
+
+                // نظهرلهم الإجابة الصح عشان يتعلموا
+                allBtns[q.correctAnswer].classList.add('correct');
             }
+
+            // إظهار زرار Next في الحالتين
+            if(availableQuestions.length === 0) {
+                document.getElementById('next-btn').innerHTML = 'Show Winner 🏆';
+            } else {
+                document.getElementById('next-btn').innerHTML = 'Back to Wheel <i class="fa-solid fa-arrow-left"></i>';
+            }
+            document.getElementById('next-btn').style.display = 'inline-block';
         }
 
         function nextQuestion() {
-            currentQuestionIndex++;
+            if (availableQuestions.length === 0) {
+                showWinnerScreen();
+                return;
+            }
+
             currentTeam = currentTeam === 1 ? 2 : 1;
             updateScoreboard(); 
-            loadQuestion();
+            
+            document.getElementById('quiz-question-screen').style.display = 'none';
+            document.getElementById('quiz-wheel-screen').style.display = 'flex';
+            
+            document.getElementById('wheel-turn-text').innerText = `Group ${currentTeam}'s Turn`;
+            
+            drawWheel(); // إعادة رسم العجلة
+            resetWheelBtn(); // تصفير العجلة والزرار
         }
 
-        // دالة الزينة
-        function fireConfetti() {
-            var duration = 2 * 1000; 
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
+        function showWinnerScreen() {
+            document.getElementById('quiz-question-screen').style.display = 'none';
+            
+            const winnerScreen = document.getElementById('winner-screen');
+            const winnerText = document.getElementById('winner-text');
+            const scoreText = document.getElementById('final-score-text');
+            
+            winnerScreen.style.display = 'flex';
 
-            confetti({
-                particleCount: 100, spread: 80, origin: { y: 0.6 }, zIndex: 10000,
-                colors: ['#1e60d2', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6']
-            });
+            if (team1Score > team2Score) {
+                winnerText.innerText = "Group 1 Wins! 🥇";
+                winnerText.style.color = "var(--blue-primary)";
+            } else if (team2Score > team1Score) {
+                winnerText.innerText = "Group 2 Wins! 🥇";
+                winnerText.style.color = "var(--warning)";
+            } else {
+                winnerText.innerText = "It's a Tie! 🤝";
+                winnerText.style.color = "var(--text-muted)";
+            }
+
+            scoreText.innerText = `Final Score: ${team1Score} - ${team2Score}`;
+
+            // احتفال ضخم
+            fireConfetti();
+            setTimeout(fireConfetti, 1000);
+            setTimeout(fireConfetti, 2000);
+            playSound('correct');
+        }
+
+        function fireConfetti() {
+            var duration = 3 * 1000; 
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 40, spread: 360, ticks: 80, zIndex: 10000 };
+
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, zIndex: 10000, colors: ['#1e60d2', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6'] });
 
             var interval = setInterval(function() {
                 var timeLeft = animationEnd - Date.now();
                 if (timeLeft <= 0) return clearInterval(interval);
-                var particleCount = 40 * (timeLeft / duration);
+                var particleCount = 50 * (timeLeft / duration);
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.1, y: Math.random() - 0.2 } }));
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.9, y: Math.random() - 0.2 } }));
             }, 250);
@@ -641,45 +811,32 @@
                 if (type === 'correct') {
                     const notes = [523.25, 659.25, 783.99, 1046.50]; 
                     notes.forEach((freq, index) => {
-                        const osc = ctx.createOscillator();
-                        const gain = ctx.createGain();
-                        osc.type = 'triangle'; 
-                        osc.frequency.value = freq;
-                        osc.connect(gain);
-                        gain.connect(ctx.destination);
+                        const osc = ctx.createOscillator(); const gain = ctx.createGain();
+                        osc.type = 'triangle'; osc.frequency.value = freq;
+                        osc.connect(gain); gain.connect(ctx.destination);
                         const startTime = ctx.currentTime + (index * 0.1);
                         gain.gain.setValueAtTime(0, startTime);
                         gain.gain.linearRampToValueAtTime(0.3, startTime + 0.05);
                         gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.4);
-                        osc.start(startTime);
-                        osc.stop(startTime + 0.5);
+                        osc.start(startTime); osc.stop(startTime + 0.5);
                     });
                 } else {
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.type = 'square';
-                    osc.frequency.setValueAtTime(150, ctx.currentTime);
+                    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+                    osc.type = 'square'; osc.frequency.setValueAtTime(150, ctx.currentTime);
                     osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.15);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
+                    osc.connect(gain); gain.connect(ctx.destination);
                     gain.gain.setValueAtTime(0.3, ctx.currentTime);
                     gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
-                    osc.start();
-                    osc.stop(ctx.currentTime + 0.3);
+                    osc.start(); osc.stop(ctx.currentTime + 0.3);
                 }
             } catch (e) { }
         }
 
         // --- الإعدادات ---
-        function openSettings() {
-            renderSettingsList();
-            document.getElementById('settings-modal').style.display = 'flex';
-        }
+        function openSettings() { renderSettingsList(); document.getElementById('settings-modal').style.display = 'flex'; }
         function closeSettings() { document.getElementById('settings-modal').style.display = 'none'; }
-
         function renderSettingsList() {
-            const list = document.getElementById('settings-list');
-            list.innerHTML = '';
+            const list = document.getElementById('settings-list'); list.innerHTML = '';
             studentsData.forEach((student, index) => {
                 const item = document.createElement('div');
                 item.style = "display: flex; justify-content: space-between; padding: 10px; background: var(--gray-bg); border-radius: 8px; margin-bottom: 8px;";
@@ -689,21 +846,15 @@
                         <button onclick="moveStudent(${index}, 'up')" ${index === 0 ? 'disabled' : ''} style="border:none; background:none; color:var(--blue-primary); cursor:pointer;"><i class="fa-solid fa-arrow-up"></i></button>
                         <button onclick="moveStudent(${index}, 'down')" ${index === studentsData.length - 1 ? 'disabled' : ''} style="border:none; background:none; color:var(--blue-primary); cursor:pointer;"><i class="fa-solid fa-arrow-down"></i></button>
                         <button onclick="deleteStudent(${student.id})" style="border:none; background:none; color:var(--danger); cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                `;
+                    </div>`;
                 list.appendChild(item);
             });
         }
-
         function moveStudent(index, direction) {
-            if (direction === 'up' && index > 0) {
-                [studentsData[index - 1], studentsData[index]] = [studentsData[index], studentsData[index - 1]];
-            } else if (direction === 'down' && index < studentsData.length - 1) {
-                [studentsData[index + 1], studentsData[index]] = [studentsData[index], studentsData[index + 1]];
-            }
+            if (direction === 'up' && index > 0) [studentsData[index - 1], studentsData[index]] = [studentsData[index], studentsData[index - 1]];
+            else if (direction === 'down' && index < studentsData.length - 1) [studentsData[index + 1], studentsData[index]] = [studentsData[index], studentsData[index + 1]];
             renderSettingsList(); renderNav(); 
         }
-
         function deleteStudent(id) {
             if (confirm("Are you sure you want to remove this student?")) {
                 studentsData = studentsData.filter(s => s.id !== id);
