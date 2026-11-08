@@ -637,6 +637,17 @@
             canvas.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
         }
 
+        // ✅ دالة جديدة: بترجّع رقم الشريحة اللي المؤشر واقف عليها فعلياً بعد الدوران
+        function getSliceIndexAtPointer(rotationDeg, count) {
+            if (count <= 0) return 0;
+            const sliceAngle = 360 / count;
+            // المؤشر فوق = 270 درجة في إحداثيات الكانفس
+            let theta = (270 - rotationDeg) % 360;
+            if (theta < 0) theta += 360;
+            return Math.floor(theta / sliceAngle) % count;
+        }
+
+        // ✅ معدّلة: الدوران بيتحسب بحيث المؤشر يقف على نفس الشريحة اللي اتختار سؤالها
         function spinWheel() {
             if (isSpinning || availableQuestions.length === 0) return;
             isSpinning = true;
@@ -646,30 +657,33 @@
             spinBtn.innerText = "Spinning...";
 
             const canvas = document.getElementById('wheel-canvas');
-            
-            const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-            currentQuestionIndex = availableQuestions[randomIndex];
+            const totalSlices = availableQuestions.length;
+            const sliceAngleDeg = 360 / totalSlices;
 
-            const sliceAngleDegrees = 360 / availableQuestions.length;
-            
-            const sliceCenter = (randomIndex * sliceAngleDegrees) + (sliceAngleDegrees / 2);
-            
-            const offsetRange = sliceAngleDegrees * 0.4; 
+            // 1) نختار الشريحة (السؤال) المطلوب
+            const randomIndex = Math.floor(Math.random() * totalSlices);
+            const sliceCenter = (randomIndex * sliceAngleDeg) + (sliceAngleDeg / 2);
+
+            // 2) انحراف بسيط جوه نفس الشريحة
+            const offsetRange = sliceAngleDeg * 0.35;
             const randomOffset = (Math.random() * offsetRange * 2) - offsetRange;
-            
-            const targetAngle = sliceCenter + randomOffset;
-            
-            let stopAngle = 360 - targetAngle;
+
+            // 3) الزاوية النهائية بحيث مركز الشريحة يقف تحت المؤشر (المؤشر = 270°)
+            let stopAngle = (270 - sliceCenter + randomOffset) % 360;
             if (stopAngle < 0) stopAngle += 360;
-            
+
             const extraSpins = (Math.floor(Math.random() * 4) + 5) * 360;
-            
             const totalRotation = extraSpins + stopAngle;
 
             canvas.style.transform = `rotate(${totalRotation}deg)`;
 
             setTimeout(() => {
                 isSpinning = false;
+
+                // 4) تأكيد: نقرأ الشريحة اللي المؤشر واقف عليها فعلاً ونعرض سؤالها
+                const landedIndex = getSliceIndexAtPointer(totalRotation, totalSlices);
+                currentQuestionIndex = availableQuestions[landedIndex];
+
                 availableQuestions = availableQuestions.filter(q => q !== currentQuestionIndex);
                 showQuestion();
             }, 4000);
